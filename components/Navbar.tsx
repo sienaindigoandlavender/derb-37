@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: '/kitchen', label: 'Kitchen' },
   { href: '/culture', label: 'My Morocco' },
   { href: '/behind-the-walls', label: 'Behind the Walls' },
+  { href: 'https://riaddisiena.com', label: 'The Riad', external: true },
   { href: '/about', label: 'About' },
 ];
 
@@ -48,12 +49,23 @@ export default function Navbar() {
         <ul className="hidden md:flex justify-center gap-8 list-none">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`nav-link ${pathname === link.href || pathname.startsWith(link.href + '/') ? '!text-[#222]' : ''}`}
-              >
-                {link.label}
-              </Link>
+              {(link as any).external ? (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nav-link"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  href={link.href}
+                  className={`nav-link ${pathname === link.href || pathname.startsWith(link.href + '/') ? '!text-[#222]' : ''}`}
+                >
+                  {link.label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>
@@ -70,13 +82,25 @@ export default function Navbar() {
         {mobileOpen && (
           <div className="md:hidden mt-4 space-y-3">
             {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`block nav-link ${pathname === link.href ? '!text-[#222]' : ''}`}
-              >
-                {link.label}
-              </Link>
+              (link as any).external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block nav-link"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`block nav-link ${pathname === link.href ? '!text-[#222]' : ''}`}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
         )}
