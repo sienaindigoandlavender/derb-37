@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Newsletter from '@/components/Newsletter';
 import { MedinaDivider, SmallTagineSVG } from '@/components/MedinaIllustrations';
-import { getLatestEntries, Entry } from '@/lib/data';
+import { getPaginatedEntries, getLatestEntries, Entry } from '@/lib/data';
 import { getPillarConfig } from '@/lib/pillars';
 import ReactMarkdown from 'react-markdown';
 
@@ -182,9 +182,13 @@ function PostStream({ entry }: { entry: Entry }) {
   );
 }
 
-export default async function HomePage() {
-  let entries = await getLatestEntries(8);
-  if (entries.length === 0) entries = DEMO_ENTRIES;
+export default async function HomePage({ searchParams }: { searchParams: { page?: string } }) {
+  const page = Math.max(1, parseInt(searchParams.page || '1', 10));
+  const perPage = 8;
+
+  const { entries: dbEntries, total } = await getPaginatedEntries(page, perPage);
+  const entries = dbEntries.length > 0 ? dbEntries : (page === 1 ? DEMO_ENTRIES : []);
+  const totalPages = Math.ceil(total / perPage);
 
   return (
     <div className="content-column pt-4 pb-12">
@@ -194,6 +198,21 @@ export default async function HomePage() {
           {i < entries.length - 1 && <MedinaDivider index={i} />}
         </div>
       ))}
+
+      {totalPages > 1 && (
+        <nav className="flex justify-between items-center mt-12 pt-8 border-t border-border font-sans text-xs uppercase tracking-widest">
+          {page > 1 ? (
+            <a href={page === 2 ? '/' : `/?page=${page - 1}`} className="text-secondary hover:text-ink transition-colors">
+              ← Newer posts
+            </a>
+          ) : <span />}
+          {page < totalPages ? (
+            <a href={`/?page=${page + 1}`} className="text-secondary hover:text-ink transition-colors">
+              Older posts →
+            </a>
+          ) : <span />}
+        </nav>
+      )}
 
       <Newsletter />
     </div>

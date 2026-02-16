@@ -77,6 +77,27 @@ export async function getLatestEntries(limit: number = 6): Promise<Entry[]> {
   return (data || []) as Entry[];
 }
 
+export async function getPaginatedEntries(page: number = 1, perPage: number = 8): Promise<{ entries: Entry[]; total: number }> {
+  if (!hasSupabase) return { entries: [], total: 0 };
+  const from = (page - 1) * perPage;
+  const to = from + perPage - 1;
+
+  const { count } = await supabase
+    .from('entries')
+    .select('*', { count: 'exact', head: true })
+    .eq('published', true);
+
+  const { data, error } = await supabase
+    .from('entries')
+    .select('*')
+    .eq('published', true)
+    .order('created_at', { ascending: false })
+    .range(from, to);
+
+  if (error) { console.error('getPaginatedEntries error:', error); return { entries: [], total: 0 }; }
+  return { entries: (data || []) as Entry[], total: count || 0 };
+}
+
 // ── Settings ──
 
 export async function getSetting(key: string): Promise<string | null> {
