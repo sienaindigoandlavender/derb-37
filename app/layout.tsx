@@ -31,9 +31,38 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const siteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': 'https://derb37.com',
+    name: 'Derb 37',
+    url: 'https://derb37.com',
+    description: 'A food and life journal from inside a 300-year-old house in the Marrakech medina.',
+    inLanguage: 'en',
+    author: {
+      '@type': 'Person',
+      name: 'Jacqueline Ng',
+      url: 'https://derb37.com/about',
+      knowsAbout: ['Moroccan cuisine', 'Marrakech medina', 'cross-cultural cooking', 'riad life'],
+      address: { '@type': 'PostalAddress', addressLocality: 'Marrakech', addressCountry: 'MA' },
+    },
+    about: [
+      { '@type': 'Thing', name: 'Moroccan cuisine' },
+      { '@type': 'Thing', name: 'Marrakech medina life' },
+      { '@type': 'Thing', name: 'Cross-cultural cooking' },
+      { '@type': 'Thing', name: 'Ramadan food traditions' },
+    ],
+    potentialAction: {
+      '@type': 'ReadAction',
+      target: 'https://derb37.com',
+    },
+  };
+
   return (
     <html lang="en">
       <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }} />
+        <link rel="alternate" type="application/json" href="/api/knowledge/entries" title="Derb 37 Knowledge API" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q0WDER0PS9" />
         <script
           dangerouslySetInnerHTML={{

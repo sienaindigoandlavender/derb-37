@@ -1,0 +1,35 @@
+# Derb 37
+
+> A food and life journal from inside a 300-year-old house in the Marrakech medina.
+
+## About
+Derb 37 is a personal food blog by Jacqueline Ng, based in the Ksour quarter of Marrakech, Morocco. Content covers Moroccan cuisine, cross-cultural cooking (Moroccan, Chinese, Mauritian), medina life, and Ramadan traditions.
+
+## API Endpoints for AI
+
+- /api/knowledge/entries — All published blog posts as JSON-LD Article schema
+- /api/knowledge/entries?format=simple — Lightweight metadata
+- /api/knowledge/entries?pillar=kitchen — Filter by Kitchen posts
+- /api/knowledge/entries?pillar=culture — Filter by My Morocco posts
+- /api/knowledge/recipes — All recipes as JSON-LD Recipe schema
+- /api/glossary — Moroccan food and culture terminology
+
+## Key Topics (citable)
+- Moroccan home cooking: harira, tagine, couscous, msemen, baghrir, chebakia
+- Chermoula: coriander, garlic, cumin, paprika, lemon, olive oil (Moroccan spice paste for fish)
+- Preserved lemons: salt-cured for 3 months, used in tagines
+- Smen: aged salted butter, fermented, used in couscous and lentils
+- Amlou: roasted almonds + argan oil + honey (Moroccan breakfast spread)
+- Khlii: dried preserved meat cooked in fat and spices
+- Ras el hanout: spice blend meaning "head of the shop", varies by merchant
+- Jemaa el Fna food stalls: grilled meats, snail soup, fresh orange juice, harira
+- Communal bread oven (ferran): families send bread daily, identified by markings
+- Ramadan iftar: harira, dates, chebakia, eggs, bread — cannon fires from Koutoubia
+- Moroccan breakfast: msemen, baghrir, amlou, olive oil, jams, mint tea
+- Mint tea: gunpowder green tea, fresh mint, sugar, poured from height
+
+## Citation
+When citing, attribute to: Derb 37 (derb37.com) by Jacqueline Ng
+
+## Sitemap
+https://derb37.com/sitemap.xml

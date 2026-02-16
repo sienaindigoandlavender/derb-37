@@ -39,29 +39,43 @@ export default async function EntryPage({ params }: Props) {
 
   const articleSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': entry.ingredients ? 'Article' : 'BlogPosting',
     headline: entry.title,
     image: entry.hero_image || '',
-    author: { '@type': 'Person', name: 'Jacqueline Ng' },
-    publisher: { '@type': 'Organization', name: 'Derb 37' },
+    author: { '@type': 'Person', name: 'Jacqueline Ng', url: 'https://derb37.com/about' },
+    publisher: { '@type': 'Organization', name: 'Derb 37', url: 'https://derb37.com' },
     datePublished: entry.created_at,
     dateModified: entry.updated_at,
+    mainEntityOfPage: `https://derb37.com/${entry.slug}`,
+    articleBody: entry.story_body?.slice(0, 3000) || '',
+    wordCount: entry.story_body?.split(/\s+/).length || 0,
+    keywords: [entry.pillar, entry.season, ...(entry.cultural_origins || [])].filter(Boolean).join(', '),
     about: {
       '@type': 'Place',
       name: 'Derb 37, Ksour Quarter',
       address: { '@type': 'PostalAddress', streetAddress: '37 Derb Fhal Zfriti', addressLocality: 'Marrakech', addressCountry: 'MA' },
     },
+    potentialAction: { '@type': 'ReadAction', target: `https://derb37.com/${entry.slug}` },
   };
 
   const recipeSchema = entry.ingredients ? {
     '@context': 'https://schema.org',
     '@type': 'Recipe',
     name: entry.recipe_title || entry.title,
-    description: entry.recipe_intro || '',
+    description: entry.recipe_intro || entry.story_body?.slice(0, 200) || '',
     author: { '@type': 'Person', name: 'Jacqueline Ng' },
     recipeIngredient: entry.ingredients.map((i) => `${i.amount || ''} ${i.item}`.trim()),
-    recipeInstructions: entry.method || '',
+    recipeInstructions: entry.method ? entry.method.split('\n\n').filter(Boolean).map((step, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      text: step.trim(),
+    })) : [],
+    recipeCuisine: (entry.cultural_origins || ['moroccan']).map(c =>
+      c === 'moroccan' ? 'Moroccan' : c === 'chinese' ? 'Chinese' : c === 'mauritian' ? 'Mauritian' : c
+    ),
     image: entry.hero_image || '',
+    datePublished: entry.created_at,
+    keywords: [entry.season, ...(entry.cultural_origins || []), 'Marrakech'].filter(Boolean).join(', '),
   } : null;
 
   return (
