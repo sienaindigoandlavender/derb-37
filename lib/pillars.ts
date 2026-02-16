@@ -19,11 +19,11 @@ export const PILLARS = {
     lanes: null,
   },
   walls: {
-    label: 'Behind the Walls',
+    label: 'Beyond the Walls',
     color: 'clay',
     colorHex: '#b8856e',
     description: 'Tadelakt, zellige, courtyard light, the house as a living thing',
-    href: '/behind-the-walls',
+    href: '/beyond-the-walls',
     lanes: null,
   },
 } as const;

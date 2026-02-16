@@ -8,7 +8,7 @@ import { HeaderTagine } from '@/components/MedinaIllustrations';
 const NAV_LINKS = [
   { href: '/kitchen', label: 'Kitchen' },
   { href: '/culture', label: 'My Morocco' },
-  { href: '/behind-the-walls', label: 'Behind the Walls' },
+  { href: '/beyond-the-walls', label: 'Beyond the Walls' },
   { href: 'https://riaddisiena.com', label: 'The Riad', external: true },
   { href: '/about', label: 'About' },
 ];
