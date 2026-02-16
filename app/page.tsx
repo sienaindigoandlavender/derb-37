@@ -42,7 +42,7 @@ Lentils and chickpeas in, water to cover, about 2 litres. Bring it up, drop to a
 
 The flour-water goes in at the end. Slowly, stirring. Thick enough to coat a spoon, still pourable. Season. Lemon at the table. Dates. Bread.`,
     cultural_origins: ['moroccan'], hero_image: null, image_prompt: null, images: null,
-    published: true, order: 1, created_at: '2026-02-28T18:00:00Z', updated_at: '2026-02-28T18:00:00Z',
+    published: true, scheduled_at: null, order: 1, created_at: '2026-02-28T18:00:00Z', updated_at: '2026-02-28T18:00:00Z',
   },
   {
     id: 2, slug: 'dumplings-in-the-riad', title: 'Dumplings in the riad',
@@ -57,7 +57,7 @@ Today it's lamb and coriander because there was no pork. I used to think of this
 I should write down the recipe at some point but honestly I just eyeball it — a bit of this, a bit of that, fold, pinch, steam. My grandmother didn't write things down either. Maybe that's the tradition I'm actually keeping.`,
     recipe_title: null, recipe_intro: null, ingredients: null, method: null,
     cultural_origins: ['chinese', 'moroccan'], hero_image: null, image_prompt: null, images: null,
-    published: true, order: 2, created_at: '2026-02-20T12:00:00Z', updated_at: '2026-02-20T12:00:00Z',
+    published: true, scheduled_at: null, order: 2, created_at: '2026-02-20T12:00:00Z', updated_at: '2026-02-20T12:00:00Z',
   },
   {
     id: 3, slug: 'six-am', title: 'Six am',
@@ -72,7 +72,7 @@ The zouak on the ceiling has gone a bit pink where the restoration wasn't done r
 By half seven the spell breaks — fountain on, kettle on, someone's footsteps on the stairs. I don't mind. But I do like getting here first.`,
     recipe_title: null, recipe_intro: null, ingredients: null, method: null,
     cultural_origins: null, hero_image: null, image_prompt: null, images: null,
-    published: true, order: 3, created_at: '2026-02-15T08:00:00Z', updated_at: '2026-02-15T08:00:00Z',
+    published: true, scheduled_at: null, order: 3, created_at: '2026-02-15T08:00:00Z', updated_at: '2026-02-15T08:00:00Z',
   },
   {
     id: 4, slug: 'the-cannon', title: 'The cannon',
@@ -85,7 +85,7 @@ Any minute now the cannon goes off from the Koutoubia and then — the spoons. Y
 Eleven Ramadans and I still love this bit. I should go downstairs and eat but I always stay up here for the first few minutes, just listening.`,
     recipe_title: null, recipe_intro: null, ingredients: null, method: null,
     cultural_origins: ['moroccan'], hero_image: null, image_prompt: null, images: null,
-    published: true, order: 4, created_at: '2026-02-10T18:00:00Z', updated_at: '2026-02-10T18:00:00Z',
+    published: true, scheduled_at: null, order: 4, created_at: '2026-02-10T18:00:00Z', updated_at: '2026-02-10T18:00:00Z',
   },
 ];
 

@@ -19,6 +19,7 @@ export type Entry = {
   image_prompt: string | null;
   images: { url: string; alt: string; caption?: string }[] | null;
   published: boolean;
+  scheduled_at: string | null;
   order: number;
   created_at: string;
   updated_at: string;

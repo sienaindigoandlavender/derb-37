@@ -62,32 +62,7 @@ export default async function Footer() {
             <a href="https://riaddisiena.com" target="_blank" rel="noopener noreferrer" className="text-white/18 hover:text-white/40 transition-colors">Riad di Siena</a>
           </span>
         </div>
-        <div id="google_translate_element" />
-        <GoogleTranslateScript />
       </div>
     </footer>
-  );
-}
-
-function GoogleTranslateScript() {
-  return (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
-          function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-              pageLanguage: 'en',
-              layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-              autoDisplay: false
-            }, 'google_translate_element');
-          }
-          (function() {
-            var s = document.createElement('script');
-            s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-            document.head.appendChild(s);
-          })();
-        `,
-      }}
-    />
   );
 }
