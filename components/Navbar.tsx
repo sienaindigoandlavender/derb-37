@@ -7,7 +7,7 @@ import { HeaderTagine } from '@/components/MedinaIllustrations';
 
 const NAV_LINKS = [
   { href: '/kitchen', label: 'Kitchen' },
-  { href: '/culture', label: 'Culture' },
+  { href: '/culture', label: 'My Morocco' },
   { href: '/behind-the-walls', label: 'Behind the Walls' },
   { href: '/about', label: 'About' },
 ];

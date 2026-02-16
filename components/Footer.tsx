@@ -19,7 +19,7 @@ export default async function Footer() {
             <p className="text-[10px] tracking-[0.2em] uppercase text-white/20 mb-3 font-sans">Sections</p>
             <div className="space-y-2">
               <Link href="/kitchen" className="block text-xs text-white/40 hover:text-white/70 transition-colors font-sans">Kitchen</Link>
-              <Link href="/culture" className="block text-xs text-white/40 hover:text-white/70 transition-colors font-sans">Culture</Link>
+              <Link href="/culture" className="block text-xs text-white/40 hover:text-white/70 transition-colors font-sans">My Morocco</Link>
               <Link href="/behind-the-walls" className="block text-xs text-white/40 hover:text-white/70 transition-colors font-sans">Behind the Walls</Link>
             </div>
           </div>

@@ -11,10 +11,10 @@ export const PILLARS = {
     },
   },
   culture: {
-    label: 'Culture',
+    label: 'My Morocco',
     color: 'saffron',
     colorHex: '#c9a04a',
-    description: 'Ramadan rhythms, neighborhood life, the derb at dusk',
+    description: 'Ramadan, rituals, the things that made me stay',
     href: '/culture',
     lanes: null,
   },
