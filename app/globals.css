@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+    background: #fff;
+  }
+
+  ::-webkit-scrollbar { display: none; }
+  * { -ms-overflow-style: none; scrollbar-width: none; }
+
+  a {
+    color: #222;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  a:hover {
+    color: #888;
+  }
+}
+
+@layer components {
+  .content-column {
+    @apply max-w-column mx-auto px-6;
+  }
+
+  /* Date with flanking lines — like Mimi's */
+  .post-date-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 16px;
+  }
+  .post-date-row::before,
+  .post-date-row::after {
+    content: '';
+    flex: 1;
+    max-width: 200px;
+    height: 1px;
+    background: #ddd;
+  }
+  .post-date-text {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  /* Category with short underline — like Mimi's */
+  .post-category {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #888;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+  }
+  .post-category::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background: #ddd;
+  }
+
+  /* Post title — ALL CAPS, wide letter-spacing, BLACK, like Mimi */
+  .post-title {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 1.4;
+    color: #222;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-align: center;
+    margin: 20px 0 24px;
+  }
+  .post-title a {
+    color: #222;
+  }
+  .post-title a:hover {
+    color: #888;
+  }
+
+  /* Post body — readable, dark */
+  .post-body {
+    font-family: Georgia, serif;
+    font-size: 16px;
+    line-height: 1.85;
+    color: #333;
+  }
+  .post-body p {
+    margin-bottom: 22px;
+  }
+  .post-body strong {
+    font-weight: bold;
+    color: #222;
+  }
+  .post-body em {
+    font-style: italic;
+  }
+  .post-body blockquote {
+    border-left: 2px solid #ddd;
+    padding-left: 20px;
+    font-style: italic;
+    color: #555;
+    margin: 24px 0;
+  }
+  .post-body h2 {
+    font-family: Georgia, serif;
+    font-size: 20px;
+    font-weight: normal;
+    color: #222;
+    margin: 32px 0 12px;
+  }
+  .post-body h3 {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    font-weight: normal;
+    color: #222;
+    margin: 24px 0 10px;
+  }
+  .post-body a {
+    color: #222;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .recipe-ingredients {
+    font-family: Georgia, serif;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #333;
+  }
+
+  .comment-link {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: #888;
+  }
+  .comment-link:hover {
+    color: #222;
+  }
+
+  .nav-link {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #888;
+    transition: color 0.2s;
+  }
+  .nav-link:hover {
+    color: #222;
+  }
+}
