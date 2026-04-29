@@ -11,22 +11,30 @@
   }
 
   body {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 17px;
-    line-height: 1.7;
-    color: #141414;
-    background: #ffffff;
+    font-family: var(--font-serif), 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.72;
+    color: #1a1714;
+    background-color: #faf6ec;
+    background-image:
+      radial-gradient(ellipse at 25% 18%, rgba(140, 110, 70, 0.04) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 80%, rgba(120, 90, 60, 0.04) 0%, transparent 55%);
   }
 
   ::-webkit-scrollbar { display: none; }
   * { -ms-overflow-style: none; scrollbar-width: none; }
 
   a {
-    color: #0a0a0a;
+    color: #0e0c08;
     text-decoration: none;
     transition: color 0.15s ease;
   }
-  a:hover { color: #5a5a5a; }
+  a:hover { color: #6b6356; }
+
+  ::selection {
+    background: rgba(154, 74, 38, 0.18);
+    color: #0e0c08;
+  }
 }
 
 @layer components {
@@ -34,42 +42,68 @@
     @apply max-w-column mx-auto px-6;
   }
 
-  /* Date with flanking lines */
+  /* ====== TYPOGRAPHY ====== */
+
+  .wordmark {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 800;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.005em;
+    color: #0e0c08;
+  }
+
+  .wordmark .amp {
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  /* Small-caps eyebrow */
+  .eyebrow {
+    font-family: var(--font-sc), Georgia, serif;
+    font-size: 11.5px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #3a342a;
+    font-weight: 500;
+  }
+
+  /* Date row with thin flanking lines */
   .post-date-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 18px;
-    margin-bottom: 10px;
+    gap: 22px;
+    margin-bottom: 14px;
   }
   .post-date-row::before,
   .post-date-row::after {
     content: '';
     flex: 1;
-    max-width: 180px;
+    max-width: 200px;
     height: 1px;
-    background: #e3ddd0;
+    background: #d6cbb4;
   }
   .post-date-text {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: var(--font-sc), Georgia, serif;
     font-size: 11px;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.34em;
     text-transform: uppercase;
-    color: #3a3a3a;
+    color: #3a342a;
     white-space: nowrap;
   }
 
-  /* Category eyebrow */
+  /* Category eyebrow with short underline */
   .post-category {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: var(--font-sc), Georgia, serif;
     font-size: 11.5px;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.34em;
     text-transform: uppercase;
-    color: #3a3a3a;
+    color: #3a342a;
     text-align: center;
     position: relative;
     display: inline-block;
-    padding-bottom: 8px;
+    padding-bottom: 9px;
   }
   .post-category::after {
     content: '';
@@ -77,104 +111,134 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 44px;
+    width: 46px;
     height: 1px;
-    background: #c9c1ad;
+    background: #cdc0a3;
   }
-  .post-category a {
-    color: #3a3a3a;
-  }
-  .post-category a:hover {
-    color: #0a0a0a;
-  }
+  .post-category a { color: #3a342a; }
+  .post-category a:hover { color: #0e0c08; }
 
-  /* Post title — ALL CAPS, tight tracking, BLACK */
+  /* Post title — refined display italic, mixed case, generous */
   .post-title {
-    font-family: Georgia, serif;
-    font-size: 22px;
-    font-weight: normal;
-    line-height: 1.35;
-    color: #0a0a0a;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-align: center;
-    margin: 14px 0 18px;
-  }
-  .post-title a { color: #0a0a0a; }
-  .post-title a:hover { color: #5a5a5a; }
-
-  /* Post body — high-contrast for readability */
-  .post-body {
-    font-family: Georgia, serif;
-    font-size: 17px;
-    line-height: 1.75;
-    color: #141414;
-  }
-  .post-body p { margin-bottom: 18px; }
-  .post-body strong { font-weight: bold; color: #0a0a0a; }
-  .post-body em { font-style: italic; color: #0a0a0a; }
-  .post-body blockquote {
-    border-left: 2px solid #c9c1ad;
-    padding-left: 18px;
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 38px;
+    font-weight: 500;
     font-style: italic;
-    color: #3a3a3a;
-    margin: 20px 0;
+    line-height: 1.12;
+    letter-spacing: -0.005em;
+    color: #0e0c08;
+    text-align: center;
+    margin: 18px auto 22px;
+    max-width: 18ch;
+  }
+  .post-title a { color: #0e0c08; }
+  .post-title a:hover { color: #6b6356; }
+
+  /* Body text */
+  .post-body {
+    font-family: var(--font-serif), 'EB Garamond', Georgia, serif;
+    font-size: 18.5px;
+    line-height: 1.74;
+    color: #1a1714;
+  }
+  .post-body p { margin-bottom: 22px; }
+  .post-body strong { font-weight: 600; color: #0e0c08; }
+  .post-body em { font-style: italic; color: #0e0c08; }
+  .post-body blockquote {
+    border-left: 1px solid #cdc0a3;
+    padding-left: 22px;
+    font-style: italic;
+    color: #3a342a;
+    margin: 24px 0;
   }
   .post-body h2 {
-    font-family: Georgia, serif;
-    font-size: 19px;
-    font-weight: bold;
-    color: #0a0a0a;
-    margin: 26px 0 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 26px;
+    font-style: italic;
+    font-weight: 500;
+    color: #0e0c08;
+    margin: 32px 0 12px;
   }
   .post-body h3 {
-    font-family: Georgia, serif;
-    font-size: 17px;
-    font-weight: bold;
-    color: #0a0a0a;
-    margin: 22px 0 8px;
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 21px;
+    font-weight: 500;
+    color: #0e0c08;
+    margin: 26px 0 10px;
   }
   .post-body a {
-    color: #0a0a0a;
+    color: #9a4a26;
     text-decoration: underline;
     text-underline-offset: 3px;
-    text-decoration-color: rgba(10, 10, 10, 0.35);
+    text-decoration-color: rgba(154, 74, 38, 0.45);
   }
   .post-body a:hover {
-    text-decoration-color: rgba(10, 10, 10, 0.85);
+    text-decoration-color: rgba(154, 74, 38, 0.95);
   }
   .post-body ul, .post-body ol {
-    margin: 0 0 18px 20px;
+    margin: 0 0 22px 22px;
   }
   .post-body li { margin-bottom: 6px; }
 
   .recipe-ingredients {
-    font-family: Georgia, serif;
-    font-size: 16px;
+    font-family: var(--font-serif), 'EB Garamond', Georgia, serif;
+    font-size: 17px;
     line-height: 1.85;
-    color: #141414;
+    color: #1a1714;
   }
 
-  .comment-link {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #3a3a3a;
-  }
-  .comment-link:hover { color: #0a0a0a; }
-
+  /* Subtle nav, comment, kindred styles */
   .nav-link {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.18em;
+    font-family: var(--font-sc), Georgia, serif;
+    font-size: 11.5px;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #3a3a3a;
+    color: #3a342a;
     transition: color 0.15s;
   }
-  .nav-link:hover { color: #0a0a0a; }
+  .nav-link:hover { color: #0e0c08; }
+
+  .comment-link {
+    font-family: var(--font-sc), Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #3a342a;
+  }
+  .comment-link:hover { color: #0e0c08; }
+
+  /* Whisper-small kindred row */
+  .kindred-link {
+    font-family: var(--font-sc), Georgia, serif;
+    font-size: 9.5px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #6b6356;
+    transition: color 0.15s;
+  }
+  .kindred-link:hover { color: #3a342a; }
+
+  /* Decorative ornament rule */
+  .ornament-rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    color: #6b6356;
+  }
+  .ornament-rule::before,
+  .ornament-rule::after {
+    content: '';
+    flex: 1;
+    max-width: 200px;
+    height: 1px;
+    background: #d6cbb4;
+  }
+  .ornament-rule .ornament {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: 14px;
+    color: #6b6356;
+  }
 
   .sr-only {
     position: absolute;

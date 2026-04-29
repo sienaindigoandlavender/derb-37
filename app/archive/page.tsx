@@ -46,38 +46,45 @@ export default async function ArchivePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
       />
-      <div className="content-column pt-2 pb-10">
-        <header className="text-center mb-8">
-          <p className="post-category mb-4">The whole journal</p>
-          <h1 className="post-title">Archive</h1>
+      <div className="content-column pt-2 pb-12">
+        <header className="text-center mb-10">
+          <p className="eyebrow mb-4">The whole journal</p>
+          <h1 className="font-display italic font-medium text-ink text-[44px] leading-[1.05] tracking-[-0.005em]">
+            Archive
+          </h1>
+          <div className="ornament-rule mt-7 mx-auto max-w-md">
+            <span className="ornament">✦</span>
+          </div>
         </header>
 
         {years.length === 0 && (
-          <p className="text-center italic text-secondary py-16">No notes yet.</p>
+          <p className="text-center font-display italic text-secondary py-16 text-[18px]">
+            No notes yet.
+          </p>
         )}
 
         {years.map((year) => (
-          <section key={year} className="mb-10">
-            <h2 className="text-center font-serif text-[24px] mb-4 tracking-[0.08em] text-ink">
+          <section key={year} className="mb-12">
+            <h2 className="text-center font-display italic text-[28px] text-ink mb-5">
               {year}
             </h2>
             <ul className="divide-y divide-border">
               {grouped[year].map((entry) => (
-                <li key={entry.id} className="py-3 flex items-baseline gap-4">
-                  <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-secondary w-32 shrink-0 hidden sm:inline-block">
+                <li key={entry.id} className="py-4 flex items-baseline gap-4">
+                  <span className="font-sc text-[10.5px] tracking-[0.32em] uppercase text-secondary w-36 shrink-0 hidden sm:inline-block">
                     {formatEntryDateLong(entry.entry_date)}
                   </span>
                   <div className="flex-1">
                     <Link href={`/${entry.slug}`} className="hover:text-secondary transition-colors">
-                      <span className="font-serif text-[17px] text-ink">
+                      <span className="font-display italic text-[20px] text-ink">
                         {entry.title}
                       </span>
                     </Link>
-                    <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-secondary block sm:hidden mt-1">
+                    <span className="font-sc text-[10px] tracking-[0.32em] uppercase text-secondary block sm:hidden mt-1">
                       {formatEntryDateLong(entry.entry_date)} · {pillarShort(entry.pillar)}
                     </span>
                   </div>
-                  <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-secondary shrink-0 hidden sm:inline-block">
+                  <span className="font-sc text-[10.5px] tracking-[0.32em] uppercase text-rust shrink-0 hidden sm:inline-block">
                     {pillarShort(entry.pillar)}
                   </span>
                 </li>

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { HeaderTagine } from '@/components/MedinaIllustrations';
 
 const NAV_LINKS = [
@@ -22,49 +22,47 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <header className="pt-9 pb-4">
+    <header className="pt-12 pb-7">
       <div className="flex justify-center mb-3">
-        <HeaderTagine className="text-ink" />
+        <HeaderTagine className="text-[#3a342a]" />
       </div>
 
-      <div className="text-center mb-1">
+      <div className="text-center">
         <Link href="/" className="inline-block" aria-label="Derb 37 — home">
-          <p
-            style={{
-              fontFamily: 'Georgia, serif',
-              fontSize: '34px',
-              fontWeight: 'bold',
-              letterSpacing: '0.13em',
-              color: '#0a0a0a',
-              textTransform: 'uppercase',
-              lineHeight: 1,
-            }}
-          >
-            Derb 37
+          <p className="wordmark">
+            Derb <span className="amp">37</span>
           </p>
         </Link>
       </div>
 
-      <p className="text-center text-[10.5px] tracking-[0.22em] uppercase text-secondary font-sans mb-5">
-        notes from a house in the medina
+      <p className="text-center font-display italic text-secondary text-[18px] mt-3 mb-7">
+        a journal from a house in the medina
       </p>
 
-      <nav className="text-center border-t border-border pt-4 max-w-[640px] mx-auto px-6" aria-label="Primary">
-        <ul className="hidden md:flex justify-center gap-7 list-none">
-          {NAV_LINKS.map((link) => {
+      <nav
+        className="text-center max-w-[680px] mx-auto px-6 border-t border-border pt-5"
+        aria-label="Primary"
+      >
+        <ul className="hidden md:flex flex-wrap justify-center items-center gap-x-3 gap-y-2 list-none">
+          {NAV_LINKS.map((link, i) => {
             const active =
               pathname === link.href ||
               (link.href !== '/' && pathname.startsWith(link.href + '/'));
             return (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`nav-link ${active ? '!text-ink' : ''}`}
-                  aria-current={active ? 'page' : undefined}
-                >
-                  {link.label}
-                </Link>
-              </li>
+              <Fragment key={link.href}>
+                <li>
+                  <Link
+                    href={link.href}
+                    className={`nav-link px-1 ${active ? '!text-ink' : ''}`}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+                {i < NAV_LINKS.length - 1 && (
+                  <li aria-hidden className="text-light">·</li>
+                )}
+              </Fragment>
             );
           })}
         </ul>
