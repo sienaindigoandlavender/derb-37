@@ -44,6 +44,22 @@ export const ENTRIES: Entry[] = [
     recipe_method:
       "Mix the filling with your hands. Don't overwork it.\n\nWet the rim of a wrapper, drop a teaspoon of filling, fold to a half-moon, pleat the seam from one corner across.\n\nSteam over rolling water for eight minutes. Eat at the counter, chilli oil, black vinegar.",
     cultural_origins: ['chinese', 'moroccan'],
+    cuisine_category: 'feast-day',
+    pantry: {
+      intro: 'What sits on the shelf for this one.',
+      items: [
+        {
+          name: 'Preserved lemon paste',
+          note: 'The shortcut for when you have not put up your own. Saffron-yellow, thick, salty enough that you adjust the soy.',
+          zfriti_url: 'https://zfriti.com/products/preserved-lemon-paste',
+        },
+        {
+          name: 'Toasted sesame oil',
+          note: 'A teaspoon, no more. The kind that smells like the souk on a Sunday.',
+          zfriti_url: 'https://zfriti.com/products/toasted-sesame-oil',
+        },
+      ],
+    },
     season: null,
     image_prompt:
       'overhead view of folded dumplings on dark wood counter, scattered preserved lemon zest, linen cloth corner, late morning kitchen light, documentary editorial, muted color, soft natural light, low contrast, film grain, medium format, 35mm, f/2.8 --ar 4:5',
@@ -96,6 +112,27 @@ export const ENTRIES: Entry[] = [
     recipe_method:
       'Sweat the onion in olive oil. Tomatoes, celery leaves, herbs, spices in — a couple of minutes until the kitchen smells ridiculous.\n\nLentils and chickpeas, water to cover (about two litres). Bring up, drop to a simmer, walk away for forty-five minutes.\n\nCinnamon now. Stream the flour-water in slowly, stirring, until it just coats a spoon. Lemon at the table.',
     cultural_origins: ['moroccan'],
+    cuisine_category: 'soups-stews',
+    pantry: {
+      intro: 'The shelf, end of winter.',
+      items: [
+        {
+          name: 'Ras el hanout, house blend',
+          note: 'Nineteen spices, ground the morning of. Half a teaspoon goes in at the start, the other half five minutes before the cinnamon.',
+          zfriti_url: 'https://zfriti.com/products/ras-el-hanout',
+        },
+        {
+          name: 'Cinnamon bark, Ceylon',
+          note: 'Snapped, not ground. Goes in last, off the heat. The whole point of harira is in this one move.',
+          zfriti_url: 'https://zfriti.com/products/ceylon-cinnamon',
+        },
+        {
+          name: 'Smen',
+          note: 'A spoonful, stirred in at the table by whoever wants it. An acquired thing. Worth acquiring.',
+          zfriti_url: 'https://zfriti.com/products/smen',
+        },
+      ],
+    },
     season: 'ramadan',
     image_prompt:
       'rustic moroccan harira soup in a clay bowl, steam rising, dates and bread on linen, cinnamon stick, evening kitchen light, documentary editorial photography, warm muted color, soft natural light, low contrast, film grain, medium format, 50mm, f/2.8 --ar 4:5',
@@ -135,6 +172,8 @@ export const ENTRIES: Entry[] = [
     recipe_method:
       'Quarter each lemon from the top, almost through, leaving the base attached. Stuff each one with salt.\n\nLayer into the jar, pressing down hard so the juice rises. Top up with extra lemon juice until the lemons are submerged.\n\nLid on. Pantry. Turn the jar upside down once a week. Six weeks before they are tender. Use the rind, not the flesh.',
     cultural_origins: ['moroccan'],
+    cuisine_category: 'preserves',
+    pantry: null,
     season: null,
     image_prompt:
       'a tall glass jar of preserved lemons on a marble counter, salt scattered, soft window light, terracotta tile, documentary editorial, muted warm color, low contrast, film grain, medium format, 50mm, f/2.8 --ar 4:5',
@@ -163,6 +202,8 @@ export const ENTRIES: Entry[] = [
     recipe_sections: null,
     recipe_method: null,
     cultural_origins: ['moroccan'],
+    cuisine_category: 'tagines',
+    pantry: null,
     season: null,
     image_prompt:
       'whole sea bream on a ceramic platter with charmoula, preserved lemon, tomato, fresh coriander, blue tile counter, soft afternoon light, documentary editorial, muted color, low contrast, film grain, medium format, 35mm, f/2.8 --ar 4:5',
@@ -193,6 +234,8 @@ export const ENTRIES: Entry[] = [
     recipe_sections: null,
     recipe_method: null,
     cultural_origins: ['moroccan'],
+    cuisine_category: null,
+    pantry: null,
     season: 'ramadan',
     image_prompt:
       'rooftop in marrakech medina at iftar, soft apricot evening light, koutoubia minaret distant, terracotta walls, single tagine and tea glass, documentary editorial, muted warm color, low contrast, film grain, medium format, 50mm, f/2.8 --ar 3:4',
@@ -221,6 +264,8 @@ export const ENTRIES: Entry[] = [
     recipe_sections: null,
     recipe_method: null,
     cultural_origins: ['moroccan'],
+    cuisine_category: null,
+    pantry: null,
     season: null,
     image_prompt:
       'courtyard of a marrakech riad before sunrise, fountain still, blue and pink zellige walls, single ceramic teacup steam rising, lemon tree corner, documentary editorial, muted blue hour color, low contrast, film grain, medium format, 35mm, f/2.8 --ar 4:5',
@@ -249,6 +294,8 @@ export const ENTRIES: Entry[] = [
     recipe_sections: null,
     recipe_method: null,
     cultural_origins: ['moroccan'],
+    cuisine_category: null,
+    pantry: null,
     season: null,
     image_prompt:
       'communal bread oven in marrakech medina, wooden boards with khobz loaves dusted with flour, hands of a baker, warm orange interior light, documentary editorial, muted warm color, low contrast, film grain, medium format, 35mm, f/2.8 --ar 4:5',
@@ -277,6 +324,8 @@ export const ENTRIES: Entry[] = [
     recipe_sections: null,
     recipe_method: null,
     cultural_origins: ['moroccan'],
+    cuisine_category: null,
+    pantry: null,
     season: null,
     image_prompt:
       'marrakech riad courtyard at night, fountain glowing softly, daybed with linen throw, lemon tree shadow, cat silhouette, candle light, documentary editorial, muted warm color, low contrast, film grain, medium format, 50mm, f/2 --ar 4:5',
@@ -307,6 +356,8 @@ export const ENTRIES: Entry[] = [
     recipe_sections: null,
     recipe_method: null,
     cultural_origins: ['moroccan'],
+    cuisine_category: null,
+    pantry: null,
     season: null,
     image_prompt:
       'wide shot of essaouira port at low light, blue painted fishing boats along harbour wall, white seabirds, documentary editorial, salt-flat light, slightly desaturated blues, film grain, medium format, 35mm, f/4 --ar 3:2',
@@ -335,6 +386,8 @@ export const ENTRIES: Entry[] = [
     recipe_sections: null,
     recipe_method: null,
     cultural_origins: ['moroccan'],
+    cuisine_category: null,
+    pantry: null,
     season: null,
     image_prompt:
       'view from a tangier balcony over the strait of gibraltar, spain faint in haze, white wall foreground, small ceramic plate of olives, documentary editorial, salt-blue color palette, low contrast, film grain, medium format, 35mm, f/4 --ar 3:2',
@@ -363,6 +416,8 @@ export const ENTRIES: Entry[] = [
     recipe_sections: null,
     recipe_method: null,
     cultural_origins: ['moroccan'],
+    cuisine_category: null,
+    pantry: null,
     season: null,
     image_prompt:
       'narrow blue painted street in chefchaouen morocco in morning fog, wet stones, tea glass on a stoop, no people, documentary editorial, soft cool color, low contrast, film grain, medium format, 35mm, f/2.8 --ar 3:2',
@@ -391,6 +446,8 @@ export const ENTRIES: Entry[] = [
     recipe_sections: null,
     recipe_method: null,
     cultural_origins: ['moroccan', 'amazigh'],
+    cuisine_category: null,
+    pantry: null,
     season: null,
     image_prompt:
       'high atlas valley in spring, snow capped peaks, almond trees in pink blossom, stone berber village, single woman walking, documentary editorial, muted natural color, low contrast, film grain, medium format, 35mm, f/4 --ar 3:2',

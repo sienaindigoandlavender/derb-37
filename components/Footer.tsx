@@ -11,6 +11,7 @@ const FOOTER_NAV = [
 
 const KINDRED = [
   { href: 'https://riaddisiena.com', label: 'Riad di Siena' },
+  { href: 'https://zfriti.com', label: 'Zfriti' },
   { href: 'https://slowmorocco.com', label: 'Slow Morocco' },
   { href: 'https://derb.so', label: 'Derb' },
   { href: 'https://darija.io', label: 'Darija' },

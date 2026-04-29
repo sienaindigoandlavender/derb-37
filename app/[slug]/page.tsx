@@ -2,7 +2,9 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import PostStream from '@/components/PostStream';
+import PantryBlock from '@/components/PantryBlock';
 import {
+  cuisineCategoryLabel,
   getEntryBySlug,
   getEntryNeighbors,
   pillarShort,
@@ -105,6 +107,10 @@ export default async function EntryPage({ params }: Props) {
     wordCount: entry.story_body ? entry.story_body.split(/\s+/).filter(Boolean).length : undefined,
   };
 
+  const recipeCategory = entry.cuisine_category
+    ? cuisineCategoryLabel(entry.cuisine_category)
+    : pillarLabel(entry.pillar);
+
   const recipeSchema = entry.has_recipe
     ? {
         '@context': 'https://schema.org',
@@ -114,11 +120,16 @@ export default async function EntryPage({ params }: Props) {
         description,
         author: { '@id': `${SITE_URL}#author` },
         recipeYield: entry.recipe_yield || undefined,
-        recipeCategory: pillarLabel(entry.pillar),
+        recipeCategory,
         recipeCuisine: (entry.cultural_origins && entry.cultural_origins.length > 0)
           ? entry.cultural_origins.map((c) => c.charAt(0).toUpperCase() + c.slice(1))
           : ['Moroccan'],
-        keywords: (entry.cultural_origins || []).join(', '),
+        keywords: [
+          ...(entry.cultural_origins || []),
+          entry.cuisine_category || '',
+        ]
+          .filter(Boolean)
+          .join(', '),
         recipeIngredient: (entry.recipe_sections || []).flatMap((s) => s.ingredients),
         recipeInstructions: methodToSteps(entry.recipe_method),
         image: entry.hero_image ? [entry.hero_image] : undefined,
@@ -127,11 +138,18 @@ export default async function EntryPage({ params }: Props) {
       }
     : null;
 
-  const breadcrumbs = breadcrumbsJsonLd([
+  const crumbs = [
     { name: 'Home', path: '/' },
     { name: pillarLabel(entry.pillar), path: `/${entry.pillar}` },
-    { name: entry.title, path: `/${entry.slug}` },
-  ]);
+  ];
+  if (entry.pillar === 'kitchen' && entry.cuisine_category) {
+    crumbs.push({
+      name: cuisineCategoryLabel(entry.cuisine_category),
+      path: `/kitchen/${entry.cuisine_category}`,
+    });
+  }
+  crumbs.push({ name: entry.title, path: `/${entry.slug}` });
+  const breadcrumbs = breadcrumbsJsonLd(crumbs);
 
   return (
     <>
@@ -153,9 +171,19 @@ export default async function EntryPage({ params }: Props) {
       <div className="content-column pt-2 pb-6">
         <PostStream entry={entry} asPermalink />
 
-        <div className="mt-8 pt-5 border-t border-border text-center">
+        {entry.pantry && <PantryBlock pantry={entry.pantry} />}
+
+        <div className="mt-10 pt-6 border-t border-border text-center flex flex-wrap justify-center gap-x-4 gap-y-2">
+          {entry.pillar === 'kitchen' && entry.cuisine_category && (
+            <>
+              <Link href={`/kitchen/${entry.cuisine_category}`} className="comment-link">
+                ← {cuisineCategoryLabel(entry.cuisine_category)}
+              </Link>
+              <span aria-hidden className="text-light">·</span>
+            </>
+          )}
           <Link href={`/${entry.pillar}`} className="comment-link">
-            ← {pillarShort(entry.pillar)}
+            All of {pillarShort(entry.pillar)}
           </Link>
         </div>
 

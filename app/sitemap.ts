@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getAllPublishedEntries } from '@/lib/content';
+import { CUISINE_CATEGORIES, getAllPublishedEntries } from '@/lib/content';
 import { SITE_URL } from '@/lib/seo';
 
 // Defensive: encode `&`, quotes, etc. that broke Slow Morocco's sitemap Feb 2026.
@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: now, changeFrequency: 'weekly', priority: 1 },
-    { url: `${SITE_URL}/kitchen`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE_URL}/kitchen`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE_URL}/morocco`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE_URL}/travel`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE_URL}/archive`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
@@ -22,6 +22,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.2 },
   ];
 
+  const categoryRoutes: MetadataRoute.Sitemap = CUISINE_CATEGORIES.map((c) => ({
+    url: `${SITE_URL}/kitchen/${c.slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
+
   const entryRoutes: MetadataRoute.Sitemap = entries.map((entry) => ({
     url: `${SITE_URL}/${safeSitemapUrl(entry.slug)}`,
     lastModified: new Date(entry.updated_at),
@@ -29,5 +36,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...entryRoutes];
+  return [...staticRoutes, ...categoryRoutes, ...entryRoutes];
 }

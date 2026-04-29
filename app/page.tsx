@@ -10,7 +10,7 @@ export const revalidate = 300;
 const PER_PAGE = 6;
 
 const HOME_DESCRIPTION =
-  'Short notes and recipes from a 300-year-old riad in the Marrakech medina, by Jacqueline Ng — kitchen, Morocco, travel.';
+  'The cuisine of Morocco, written from inside it. A journal of recipes, kitchen notes, and dispatches from a 300-year-old riad in the Marrakech medina, by J. Ng.';
 
 export async function generateMetadata({
   searchParams,
@@ -20,8 +20,8 @@ export async function generateMetadata({
   const page = Math.max(1, parseInt(searchParams.page || '1', 10));
   const title =
     page > 1
-      ? `Notes from Derb 37 — page ${page}`
-      : 'Derb 37 — notes from the Marrakech medina';
+      ? `Derb 37 — Moroccan cuisine, page ${page}`
+      : 'Derb 37 — the cuisine of Morocco, written from inside it';
   const path = page > 1 ? `/?page=${page}` : '/';
   return {
     title,
@@ -52,8 +52,8 @@ export default async function Home({
     <div className="content-column pt-2 pb-6">
       <h1 className="sr-only">
         {page > 1
-          ? `Notes from Derb 37 — page ${page}`
-          : 'Notes from Derb 37 — a Marrakech medina journal'}
+          ? `Derb 37 — the cuisine of Morocco, page ${page}`
+          : 'Derb 37 — the cuisine of Morocco, written from inside it'}
       </h1>
 
       {slice.length === 0 && (
