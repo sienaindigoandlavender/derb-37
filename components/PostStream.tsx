@@ -34,25 +34,23 @@ export default function PostStream({
   const TitleTag = asPermalink ? 'h1' : 'h2';
 
   return (
-    <article className="mb-10 pb-4">
-      {/* Date with flanking lines */}
+    <article className="mb-8 pb-2">
       <div className="post-date-row">
-        <span className="post-date-text">{formatDate(entry.entry_date)}</span>
+        <time className="post-date-text" dateTime={entry.entry_date}>
+          {formatDate(entry.entry_date)}
+        </time>
       </div>
 
-      {/* Small tagine icon */}
-      <div className="flex justify-center mb-4">
-        <SmallTagineSVG className="text-muted" />
+      <div className="flex justify-center mb-3">
+        <SmallTagineSVG className="text-secondary" />
       </div>
 
-      {/* Category with underline */}
-      <div className="text-center mb-2">
+      <div className="text-center mb-1">
         <span className="post-category">
           <Link href={`/${entry.pillar}`}>{pillarShort(entry.pillar)}</Link>
         </span>
       </div>
 
-      {/* Title — ALL CAPS, centered */}
       <TitleTag className="post-title">
         {asPermalink ? (
           entry.title
@@ -61,33 +59,25 @@ export default function PostStream({
         )}
       </TitleTag>
 
-      {entry.subtitle && (
-        <p className="text-center italic text-secondary text-[15px] mb-6 -mt-2">
-          {entry.subtitle}
-        </p>
-      )}
-
-      {/* Hero image */}
       {entry.hero_image && (
-        <div className="mb-6">
+        <figure className="mb-5">
           <Image
             src={entry.hero_image}
-            alt={entry.title}
-            width={710}
-            height={536}
+            alt={entry.hero_caption || entry.title}
+            width={690}
+            height={518}
             className="w-full h-auto"
             priority={asPermalink}
-            sizes="(max-width: 768px) 100vw, 710px"
+            sizes="(max-width: 768px) 100vw, 690px"
           />
           {entry.hero_caption && (
-            <p className="text-xs text-muted italic text-center mt-2">
+            <figcaption className="text-[11px] tracking-[0.06em] text-secondary italic text-center mt-2">
               {entry.hero_caption}
-            </p>
+            </figcaption>
           )}
-        </div>
+        </figure>
       )}
 
-      {/* Body */}
       {bodyHtml && (
         <div
           className="post-body"
@@ -95,21 +85,20 @@ export default function PostStream({
         />
       )}
 
-      {/* Inline images */}
       {entry.images && entry.images.length > 0 && (
-        <div className="my-6 space-y-4">
+        <div className="my-5 space-y-4">
           {entry.images.map((img, i) => (
             <figure key={i}>
               <Image
                 src={img.url}
-                alt={img.alt}
-                width={710}
-                height={536}
+                alt={img.alt || entry.title}
+                width={690}
+                height={518}
                 className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 710px"
+                sizes="(max-width: 768px) 100vw, 690px"
               />
               {img.caption && (
-                <figcaption className="text-xs text-muted mt-2 italic text-center">
+                <figcaption className="text-[11px] tracking-[0.06em] text-secondary mt-2 italic text-center">
                   {img.caption}
                 </figcaption>
               )}
@@ -118,26 +107,25 @@ export default function PostStream({
         </div>
       )}
 
-      {/* Recipe */}
       {entry.has_recipe && (
-        <div className="post-body mt-8">
+        <div className="post-body mt-6 pt-5 border-t border-border">
           {entry.recipe_title && (
             <p>
               <strong>{entry.recipe_title}</strong>
-            </p>
-          )}
-          {entry.recipe_yield && (
-            <p>
-              <em>{entry.recipe_yield}</em>
+              {entry.recipe_yield && (
+                <>
+                  {' '}— <em className="text-secondary">{entry.recipe_yield}</em>
+                </>
+              )}
             </p>
           )}
 
           {entry.recipe_sections && entry.recipe_sections.length > 0 && (
-            <div className="recipe-ingredients my-4">
+            <div className="recipe-ingredients my-3">
               {entry.recipe_sections.map((section, si) => (
-                <div key={si} className="mb-4">
+                <div key={si} className="mb-3">
                   {section.label && (
-                    <p className="font-sans text-[11px] tracking-[0.2em] uppercase text-muted mb-2">
+                    <p className="font-sans text-[10.5px] tracking-[0.22em] uppercase text-secondary mb-1.5 mt-3">
                       {section.label}
                     </p>
                   )}
@@ -153,19 +141,10 @@ export default function PostStream({
 
           {methodHtml && (
             <div
-              className="mt-4"
+              className="mt-3"
               dangerouslySetInnerHTML={{ __html: methodHtml }}
             />
           )}
-        </div>
-      )}
-
-      {/* Read-more link on stream view */}
-      {!asPermalink && (
-        <div className="text-center mt-8">
-          <Link href={`/${entry.slug}`} className="comment-link">
-            Continue reading →
-          </Link>
         </div>
       )}
     </article>

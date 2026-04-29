@@ -1,10 +1,21 @@
 import type { Metadata } from 'next';
 import { marked } from 'marked';
 import { PRIVACY_POLICY } from '@/lib/nexus';
+import { canonical } from '@/lib/seo';
+
+const DESC = 'How Derb 37 handles analytics and your privacy.';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
-  description: 'How Derb 37 handles email addresses, analytics, and your privacy.',
+  title: 'Privacy',
+  description: DESC,
+  alternates: { canonical: canonical('/privacy') },
+  openGraph: {
+    type: 'website',
+    url: canonical('/privacy'),
+    title: 'Privacy',
+    description: DESC,
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function PrivacyPage() {
@@ -12,9 +23,9 @@ export default function PrivacyPage() {
   const html = marked.parse(body, { async: false }) as string;
 
   return (
-    <div className="content-column pt-4 pb-12">
-      <header className="text-center mb-10">
-        <p className="post-category mb-6">The fine print</p>
+    <div className="content-column pt-2 pb-10">
+      <header className="text-center mb-8">
+        <p className="post-category mb-4">The fine print</p>
         <h1 className="post-title">Privacy</h1>
       </header>
       <div className="post-body" dangerouslySetInnerHTML={{ __html: html }} />

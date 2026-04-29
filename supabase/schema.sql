@@ -50,24 +50,10 @@ INSERT INTO settings (key, value) VALUES
   ('season_label', 'Spring 2026')
 ON CONFLICT (key) DO NOTHING;
 
--- ============ NEWSLETTER (double opt-in) ============
-
-CREATE TABLE IF NOT EXISTS subscribers (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email TEXT UNIQUE NOT NULL,
-  confirmed BOOLEAN DEFAULT false,
-  confirm_token TEXT UNIQUE,
-  subscribed_at TIMESTAMPTZ DEFAULT now(),
-  confirmed_at TIMESTAMPTZ,
-  unsubscribed_at TIMESTAMPTZ,
-  source_page TEXT
-);
-
 -- ============ RLS ============
 
 ALTER TABLE entries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
-ALTER TABLE subscribers ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "public reads published entries" ON entries;
 CREATE POLICY "public reads published entries" ON entries
@@ -76,5 +62,3 @@ CREATE POLICY "public reads published entries" ON entries
 DROP POLICY IF EXISTS "public reads settings" ON settings;
 CREATE POLICY "public reads settings" ON settings
   FOR SELECT USING (true);
-
--- subscribers: server-only writes via service role key. No public read or write.

@@ -7,9 +7,6 @@ const FOOTER_NAV = [
   { href: '/travel', label: 'Travel' },
   { href: '/archive', label: 'Archive' },
   { href: '/about', label: 'About' },
-  { href: '/letters', label: 'Letters' },
-  { href: '/privacy', label: 'Privacy' },
-  { href: '/terms', label: 'Terms' },
 ];
 
 const KINDRED = [
@@ -24,9 +21,9 @@ const KINDRED = [
 
 export default function Footer() {
   return (
-    <footer className="px-6 pt-12 pb-14 border-t border-border mt-12">
-      <div className="mx-auto max-w-[640px] text-center">
-        <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mb-8">
+    <footer className="mt-10 border-t border-border">
+      <div className="px-6 pt-9 pb-6 mx-auto max-w-[640px] text-center">
+        <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-7">
           {FOOTER_NAV.map((item, i) => (
             <Fragment key={item.href}>
               <li>
@@ -41,8 +38,8 @@ export default function Footer() {
           ))}
         </ul>
 
-        <p className="post-category mb-6">Kindred</p>
-        <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mb-10">
+        <p className="post-category mb-5">Kindred</p>
+        <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-2">
           {KINDRED.map((item, i) => (
             <Fragment key={item.href}>
               <li>
@@ -61,10 +58,16 @@ export default function Footer() {
             </Fragment>
           ))}
         </ul>
+      </div>
 
-        <p className="font-sans text-[11px] tracking-[0.2em] uppercase text-muted">
-          Marrakech · Morocco · MMXXVI
-        </p>
+      <div className="border-t border-border bg-white">
+        <div className="px-6 py-4 mx-auto max-w-[640px] flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-sans text-[11px] tracking-[0.18em] uppercase text-ink">
+          <span>Copyright 2026, Derb 37</span>
+          <span aria-hidden className="text-light">|</span>
+          <Link href="/privacy" className="hover:text-secondary">Privacy</Link>
+          <span aria-hidden className="text-light">/</span>
+          <Link href="/terms" className="hover:text-secondary">Terms</Link>
+        </div>
       </div>
     </footer>
   );

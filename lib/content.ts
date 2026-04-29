@@ -167,6 +167,35 @@ export async function getEntryBySlug(slug: string): Promise<Entry | null> {
   return data as Entry | null;
 }
 
+export async function getEntryNeighbors(entry: Entry): Promise<{ prev: Entry | null; next: Entry | null }> {
+  if (!hasSupabase) return { prev: null, next: null };
+
+  // "previous" note = older = entry_date < this one
+  const { data: prevData } = await supabase
+    .from('entries')
+    .select('*')
+    .eq('published', true)
+    .lt('entry_date', entry.entry_date)
+    .order('entry_date', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  // "next" note = newer = entry_date > this one
+  const { data: nextData } = await supabase
+    .from('entries')
+    .select('*')
+    .eq('published', true)
+    .gt('entry_date', entry.entry_date)
+    .order('entry_date', { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  return {
+    prev: (prevData as Entry | null) || null,
+    next: (nextData as Entry | null) || null,
+  };
+}
+
 export function formatEntryDate(iso: string): string {
   // "14 January"
   const d = new Date(iso + 'T00:00:00Z');
