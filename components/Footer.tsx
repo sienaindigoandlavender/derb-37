@@ -6,6 +6,7 @@ const FOOTER_NAV = [
   { href: '/morocco', label: 'Morocco' },
   { href: '/travel', label: 'Travel' },
   { href: '/archive', label: 'Archive' },
+  { href: '/glossary', label: 'Glossary' },
   { href: '/about', label: 'About' },
 ];
 

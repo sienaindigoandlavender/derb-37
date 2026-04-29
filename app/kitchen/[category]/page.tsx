@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PostStream from '@/components/PostStream';
 import CategoryIndex from '@/components/CategoryIndex';
+import CategoryFAQ from '@/components/CategoryFAQ';
 import { MedinaDivider } from '@/components/MedinaIllustrations';
 import {
   CUISINE_CATEGORIES,
@@ -144,6 +145,8 @@ export default async function KitchenCategoryPage({ params, searchParams }: Prop
             )}
           </nav>
         )}
+
+        <CategoryFAQ faqs={cat.faqs} categoryLabel={cat.label} />
 
         <div className="mt-10 pt-6 text-center border-t border-border">
           <Link href="/kitchen" className="comment-link">

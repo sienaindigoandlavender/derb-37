@@ -4,6 +4,7 @@ import { marked } from 'marked';
 import type { Entry } from '@/lib/content';
 import { pillarShort } from '@/lib/content';
 import { SmallTagineSVG } from '@/components/MedinaIllustrations';
+import Byline from '@/components/Byline';
 
 marked.setOptions({ gfm: true, breaks: false });
 
@@ -58,6 +59,8 @@ export default function PostStream({
           <Link href={`/${entry.slug}`}>{entry.title}</Link>
         )}
       </TitleTag>
+
+      {asPermalink && <Byline entryDate={entry.entry_date} />}
 
       {entry.hero_image && (
         <figure className="mb-7">
