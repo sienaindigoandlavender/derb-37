@@ -60,7 +60,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-border bg-paper">
-        <div className="px-6 py-4 mx-auto max-w-[680px] flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-sc text-[10.5px] tracking-[0.32em] uppercase text-ink">
+        <div className="px-6 py-4 mx-auto max-w-[680px] flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-sc text-[13px] tracking-[0.22em] uppercase text-black font-semibold">
           <span>Copyright 2026, Derb 37</span>
           <span aria-hidden className="text-light">|</span>
           <Link href="/privacy" className="hover:text-secondary">Privacy</Link>

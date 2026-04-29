@@ -71,7 +71,7 @@ export default async function ArchivePage() {
             <ul className="divide-y divide-border">
               {grouped[year].map((entry) => (
                 <li key={entry.id} className="py-4 flex items-baseline gap-4">
-                  <span className="font-sc text-[10.5px] tracking-[0.32em] uppercase text-secondary w-36 shrink-0 hidden sm:inline-block">
+                  <span className="font-sc text-[13.5px] tracking-[0.22em] font-semibold uppercase text-black w-36 shrink-0 hidden sm:inline-block">
                     {formatEntryDateLong(entry.entry_date)}
                   </span>
                   <div className="flex-1">
@@ -80,11 +80,11 @@ export default async function ArchivePage() {
                         {entry.title}
                       </span>
                     </Link>
-                    <span className="font-sc text-[10px] tracking-[0.32em] uppercase text-secondary block sm:hidden mt-1">
+                    <span className="font-sc text-[13px] tracking-[0.22em] font-semibold uppercase text-black block sm:hidden mt-1">
                       {formatEntryDateLong(entry.entry_date)} · {pillarShort(entry.pillar)}
                     </span>
                   </div>
-                  <span className="font-sc text-[10.5px] tracking-[0.32em] uppercase text-rust shrink-0 hidden sm:inline-block">
+                  <span className="font-sc text-[13.5px] tracking-[0.22em] font-semibold uppercase text-rust shrink-0 hidden sm:inline-block">
                     {pillarShort(entry.pillar)}
                   </span>
                 </li>

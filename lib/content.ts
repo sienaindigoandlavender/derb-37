@@ -1,4 +1,4 @@
-import { supabase, hasSupabase } from './supabase';
+import { ENTRIES, SETTINGS } from './entries';
 
 export type RecipeSection = {
   label: string;
@@ -47,157 +47,63 @@ export type Settings = {
   season_label: string;
 };
 
-const defaultSettings: Settings = {
-  site_title: 'Derb 37',
-  site_tagline: 'a journal from a house in the medina',
-  volume: 'Vol. I',
-  issue: 'No. III',
-  season_label: 'Spring 2026',
-};
+function publishedSorted(): Entry[] {
+  return ENTRIES
+    .filter((e) => e.published)
+    .slice()
+    .sort((a, b) => b.entry_date.localeCompare(a.entry_date));
+}
 
 export async function getSettings(): Promise<Settings> {
-  if (!hasSupabase) return defaultSettings;
-  const { data, error } = await supabase.from('settings').select('key, value');
-  if (error || !data) return defaultSettings;
-
-  const map = data.reduce<Record<string, string>>((acc, row) => {
-    acc[row.key] = row.value;
-    return acc;
-  }, {});
-
-  return {
-    site_title: map.site_title || defaultSettings.site_title,
-    site_tagline: map.site_tagline || defaultSettings.site_tagline,
-    volume: map.volume || defaultSettings.volume,
-    issue: map.issue || defaultSettings.issue,
-    season_label: map.season_label || defaultSettings.season_label,
-  };
+  return SETTINGS;
 }
 
 export async function getLatestEntry(): Promise<Entry | null> {
-  if (!hasSupabase) return null;
-  const { data, error } = await supabase
-    .from('entries')
-    .select('*')
-    .eq('published', true)
-    .order('entry_date', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  if (error) {
-    console.error('getLatestEntry error:', error);
-    return null;
-  }
-  return data as Entry | null;
+  return publishedSorted()[0] || null;
 }
 
-export async function getRecentEntries(opts: { limit?: number; excludeId?: number; pillar?: Pillar } = {}): Promise<Entry[]> {
-  if (!hasSupabase) return [];
+export async function getRecentEntries(opts: {
+  limit?: number;
+  excludeId?: number;
+  pillar?: Pillar;
+} = {}): Promise<Entry[]> {
   const { limit = 6, excludeId, pillar } = opts;
-  let query = supabase
-    .from('entries')
-    .select('*')
-    .eq('published', true)
-    .order('entry_date', { ascending: false })
-    .limit(limit);
-
-  if (excludeId) query = query.neq('id', excludeId);
-  if (pillar) query = query.eq('pillar', pillar);
-
-  const { data, error } = await query;
-  if (error) {
-    console.error('getRecentEntries error:', error);
-    return [];
-  }
-  return (data || []) as Entry[];
+  let list = publishedSorted();
+  if (pillar) list = list.filter((e) => e.pillar === pillar);
+  if (excludeId) list = list.filter((e) => e.id !== excludeId);
+  return list.slice(0, limit);
 }
 
-export async function getEntriesByPillar(pillar: Pillar, opts: { page?: number; perPage?: number } = {}): Promise<{ entries: Entry[]; total: number }> {
-  if (!hasSupabase) return { entries: [], total: 0 };
+export async function getEntriesByPillar(
+  pillar: Pillar,
+  opts: { page?: number; perPage?: number } = {}
+): Promise<{ entries: Entry[]; total: number }> {
   const { page = 1, perPage = 12 } = opts;
+  const all = publishedSorted().filter((e) => e.pillar === pillar);
   const from = (page - 1) * perPage;
-  const to = from + perPage - 1;
-
-  const { count } = await supabase
-    .from('entries')
-    .select('*', { count: 'exact', head: true })
-    .eq('published', true)
-    .eq('pillar', pillar);
-
-  const { data, error } = await supabase
-    .from('entries')
-    .select('*')
-    .eq('published', true)
-    .eq('pillar', pillar)
-    .order('entry_date', { ascending: false })
-    .range(from, to);
-
-  if (error) {
-    console.error('getEntriesByPillar error:', error);
-    return { entries: [], total: 0 };
-  }
-  return { entries: (data || []) as Entry[], total: count || 0 };
+  const to = from + perPage;
+  return { entries: all.slice(from, to), total: all.length };
 }
 
 export async function getAllPublishedEntries(): Promise<Entry[]> {
-  if (!hasSupabase) return [];
-  const { data, error } = await supabase
-    .from('entries')
-    .select('*')
-    .eq('published', true)
-    .order('entry_date', { ascending: false });
-  if (error) {
-    console.error('getAllPublishedEntries error:', error);
-    return [];
-  }
-  return (data || []) as Entry[];
+  return publishedSorted();
 }
 
 export async function getEntryBySlug(slug: string): Promise<Entry | null> {
-  if (!hasSupabase) return null;
-  const { data, error } = await supabase
-    .from('entries')
-    .select('*')
-    .eq('slug', slug)
-    .eq('published', true)
-    .maybeSingle();
-  if (error) {
-    console.error('getEntryBySlug error:', error);
-    return null;
-  }
-  return data as Entry | null;
+  return ENTRIES.find((e) => e.slug === slug && e.published) || null;
 }
 
 export async function getEntryNeighbors(entry: Entry): Promise<{ prev: Entry | null; next: Entry | null }> {
-  if (!hasSupabase) return { prev: null, next: null };
-
-  // "previous" note = older = entry_date < this one
-  const { data: prevData } = await supabase
-    .from('entries')
-    .select('*')
-    .eq('published', true)
-    .lt('entry_date', entry.entry_date)
-    .order('entry_date', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  // "next" note = newer = entry_date > this one
-  const { data: nextData } = await supabase
-    .from('entries')
-    .select('*')
-    .eq('published', true)
-    .gt('entry_date', entry.entry_date)
-    .order('entry_date', { ascending: true })
-    .limit(1)
-    .maybeSingle();
-
-  return {
-    prev: (prevData as Entry | null) || null,
-    next: (nextData as Entry | null) || null,
-  };
+  const list = publishedSorted();
+  const idx = list.findIndex((e) => e.id === entry.id);
+  if (idx === -1) return { prev: null, next: null };
+  // Sorted newest → oldest, so "newer" sits at idx-1, "older" at idx+1.
+  const next = idx > 0 ? list[idx - 1] : null;
+  const prev = idx < list.length - 1 ? list[idx + 1] : null;
+  return { prev, next };
 }
 
 export function formatEntryDate(iso: string): string {
-  // "14 January"
   const d = new Date(iso + 'T00:00:00Z');
   const day = d.getUTCDate();
   const month = d.toLocaleString('en-GB', { month: 'long', timeZone: 'UTC' });
