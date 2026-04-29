@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import PageHeading from '@/components/PageHeading';
 import { getAllPublishedEntries, formatEntryDateLong, pillarShort } from '@/lib/content';
 
 export const revalidate = 300;
@@ -22,45 +21,45 @@ export default async function ArchivePage() {
   const years = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
 
   return (
-    <>
-      <PageHeading
-        eyebrow="The whole journal"
-        title="Archive"
-        subtitle="Every letter, in order, by date."
-      />
-      <div className="px-6 pb-24 mx-auto max-w-3xl">
-        {years.length === 0 && (
-          <p className="text-center font-display italic text-secondary text-[19px]">
-            No letters yet.
-          </p>
-        )}
-        {years.map((year) => (
-          <section key={year} className="mb-16">
-            <h2 className="display-headline italic text-[34px] mb-6 text-center">
-              {year}
-            </h2>
-            <ul className="divide-y divide-rule">
-              {grouped[year].map((entry) => (
-                <li key={entry.id} className="py-5 flex items-baseline gap-6">
-                  <span className="font-sc text-[10.5px] tracking-[0.32em] uppercase text-secondary w-32 shrink-0">
-                    {formatEntryDateLong(entry.entry_date)}
+    <div className="content-column pt-4 pb-12">
+      <header className="text-center mb-10">
+        <p className="post-category mb-6">The whole journal</p>
+        <h1 className="post-title">Archive</h1>
+      </header>
+
+      {years.length === 0 && (
+        <p className="text-center italic text-secondary py-20">No letters yet.</p>
+      )}
+
+      {years.map((year) => (
+        <section key={year} className="mb-14">
+          <h2 className="text-center font-serif text-[28px] mb-6 tracking-[0.08em]">
+            {year}
+          </h2>
+          <ul className="divide-y divide-border">
+            {grouped[year].map((entry) => (
+              <li key={entry.id} className="py-4 flex items-baseline gap-4">
+                <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-muted w-32 shrink-0 hidden sm:inline-block">
+                  {formatEntryDateLong(entry.entry_date)}
+                </span>
+                <div className="flex-1">
+                  <Link href={`/${entry.slug}`} className="hover:text-muted transition-colors">
+                    <span className="font-serif text-[18px] text-ink">
+                      {entry.title}
+                    </span>
+                  </Link>
+                  <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-muted block sm:hidden mt-1">
+                    {formatEntryDateLong(entry.entry_date)} · {pillarShort(entry.pillar)}
                   </span>
-                  <div className="flex-1">
-                    <Link href={`/${entry.slug}`} className="hover:text-rust transition-colors">
-                      <span className="font-display text-[20px] text-ink">
-                        {entry.title}
-                      </span>
-                    </Link>
-                  </div>
-                  <span className="font-sc text-[10.5px] tracking-[0.32em] uppercase text-rust shrink-0">
-                    {pillarShort(entry.pillar)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
-    </>
+                </div>
+                <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-muted shrink-0 hidden sm:inline-block">
+                  {pillarShort(entry.pillar)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
   );
 }

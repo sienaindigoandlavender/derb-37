@@ -2,19 +2,14 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="px-6 py-24 text-center">
-      <p className="eyebrow mb-5">Lost in the derb</p>
-      <h1 className="display-headline italic text-[44px] md:text-[58px] mb-6">
-        This page isn't here.
-      </h1>
-      <p className="font-display italic text-secondary text-[18px] max-w-md mx-auto mb-10">
-        The doorway you knocked at doesn't open onto anything yet. The
+    <div className="content-column pt-12 pb-20 text-center">
+      <p className="post-category mb-6">Lost in the derb</p>
+      <h1 className="post-title">This page isn&apos;t here</h1>
+      <p className="italic text-secondary text-[15px] max-w-md mx-auto mb-8">
+        The doorway you knocked at doesn&apos;t open onto anything yet. The
         kitchen is still warm, though.
       </p>
-      <Link
-        href="/"
-        className="font-sc text-[11px] tracking-[0.32em] uppercase text-rust hover:text-ink transition-colors"
-      >
+      <Link href="/" className="comment-link">
         ← Back to the journal
       </Link>
     </div>

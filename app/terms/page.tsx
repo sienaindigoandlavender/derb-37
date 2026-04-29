@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { marked } from 'marked';
-import PageHeading from '@/components/PageHeading';
 import { TERMS_OF_SERVICE } from '@/lib/nexus';
 
 export const metadata: Metadata = {
@@ -13,14 +12,12 @@ export default function TermsPage() {
   const html = marked.parse(body, { async: false }) as string;
 
   return (
-    <>
-      <PageHeading eyebrow="The fine print" title="Terms" />
-      <div className="px-6 pb-20">
-        <div
-          className="entry-body [&>p:first-of-type::first-letter]:!float-none [&>p:first-of-type::first-letter]:!text-inherit [&>p:first-of-type::first-letter]:!font-inherit [&>p:first-of-type::first-letter]:!color-inherit [&>p:first-of-type::first-letter]:!m-0"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
-      </div>
-    </>
+    <div className="content-column pt-4 pb-12">
+      <header className="text-center mb-10">
+        <p className="post-category mb-6">The fine print</p>
+        <h1 className="post-title">Terms</h1>
+      </header>
+      <div className="post-body" dangerouslySetInnerHTML={{ __html: html }} />
+    </div>
   );
 }
