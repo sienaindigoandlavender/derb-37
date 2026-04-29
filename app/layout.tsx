@@ -1,21 +1,47 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import Navbar from '@/components/Navbar';
+import { EB_Garamond, Cormorant_Garamond, Cormorant_SC } from 'next/font/google';
+import Masthead from '@/components/Masthead';
+import PrimaryNav from '@/components/PrimaryNav';
 import Footer from '@/components/Footer';
+import { getSettings } from '@/lib/content';
+
+const ebGaramond = EB_Garamond({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  weight: ['400', '500'],
+  display: 'swap',
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-display',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+});
+
+const cormorantSC = Cormorant_SC({
+  subsets: ['latin'],
+  variable: '--font-sc',
+  weight: ['400', '500'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Derb 37',
-    template: '%s — Derb 37',
-  },
-  description: 'A food and life journal from inside a 300-year-old house in the Marrakech medina.',
   metadataBase: new URL('https://derb37.com'),
+  title: {
+    default: 'Derb 37 — a journal from a house in the medina',
+    template: '%s · Derb 37',
+  },
+  description:
+    'A first-person journal from a 300-year-old house in the Marrakech medina. Letters about the kitchen, Morocco, and travel.',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     siteName: 'Derb 37',
     title: 'Derb 37',
-    description: 'A food and life journal from inside a 300-year-old house in the Marrakech medina.',
+    description: 'A first-person journal from a 300-year-old house in the Marrakech medina.',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image' },
@@ -30,48 +56,28 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const siteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    '@id': 'https://derb37.com',
-    name: 'Derb 37',
-    url: 'https://derb37.com',
-    description: 'A food and life journal from inside a 300-year-old house in the Marrakech medina.',
-    inLanguage: 'en',
-    author: {
-      '@type': 'Person',
-      name: 'Jacqueline Ng',
-      url: 'https://derb37.com/about',
-      knowsAbout: ['Moroccan cuisine', 'Marrakech medina', 'cross-cultural cooking', 'riad life'],
-      address: { '@type': 'PostalAddress', addressLocality: 'Marrakech', addressCountry: 'MA' },
-    },
-    about: [
-      { '@type': 'Thing', name: 'Moroccan cuisine' },
-      { '@type': 'Thing', name: 'Marrakech medina life' },
-      { '@type': 'Thing', name: 'Cross-cultural cooking' },
-      { '@type': 'Thing', name: 'Ramadan food traditions' },
-    ],
-    potentialAction: {
-      '@type': 'ReadAction',
-      target: 'https://derb37.com',
-    },
-  };
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSettings();
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${ebGaramond.variable} ${cormorant.variable} ${cormorantSC.variable}`}>
       <head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }} />
-        <link rel="alternate" type="application/json" href="/api/knowledge/entries" title="Derb 37 Knowledge API" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q0WDER0PS9" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-Q0WDER0PS9');`,
-          }}
-        />
+        {GA_ID && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA_ID}');`,
+              }}
+            />
+          </>
+        )}
       </head>
       <body>
-        <Navbar />
+        <Masthead settings={settings} />
+        <PrimaryNav />
         <main>{children}</main>
         <Footer />
       </body>

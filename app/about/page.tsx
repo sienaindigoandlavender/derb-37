@@ -1,32 +1,58 @@
 import type { Metadata } from 'next';
-import Newsletter from '@/components/Newsletter';
+import Link from 'next/link';
+import PageHeading from '@/components/PageHeading';
+import Signature from '@/components/Signature';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'About Derb 37 — a food and life journal from inside a 300-year-old house in the Marrakech medina.',
+  description: 'A journal from a 300-year-old house in the Marrakech medina, written by Jacqueline.',
 };
 
 export default function AboutPage() {
   return (
-    <div className="content-column pt-4 pb-12">
-      <div className="post-body">
-        <p>I live in a 300-year-old house in the Marrakech medina. It sits in the Ksour quarter, near Jemaa el Fna, on a quiet derb where the neighbours know each other&apos;s bread by shape. The courtyard has a fountain and the kitchen smells like cumin and cinnamon and whatever I&apos;m experimenting with that week.</p>
-
-        <p>I came to Morocco eleven years ago. I stayed because the food was extraordinary, the light was extraordinary, and the house wouldn&apos;t let me leave.</p>
-
-        <p>This is a journal about what I cook and what life looks like from inside these walls. My kitchen is a crossroads — Chinese and Mauritian and Canadian and everywhere I&apos;ve lived, filtered through whatever is at the souk that morning. Sometimes there are recipes. Sometimes it&apos;s just what the courtyard looked like at six am with the steam coming off my tea.</p>
-
-        <p>The house also welcomes guests. If you&apos;re curious about that, you can find more at <a href="https://riaddisiena.com" target="_blank" rel="noopener noreferrer">riaddisiena.com</a>.</p>
+    <>
+      <PageHeading eyebrow="A note from the writer" title="About" />
+      <div className="px-6 pb-12">
+        <div className="entry-body">
+          <p>
+            I live in a house with a green door I painted myself. It is three
+            hundred years old. It sits on a small derb in the Ksour quarter
+            of the Marrakech medina, close enough to the Koutoubia that I can
+            hear the call to prayer over my morning tea.
+          </p>
+          <p>
+            I cook. I write about what I cook. The kitchen is a crossroads —
+            Chinese grandmother, Mauritian summers, Canadian winters,
+            Moroccan everything-else — and the cooking is what comes of all
+            of that. Some nights it is dumplings. Some nights it is a tagine
+            that has been on the stove since lunch. The recipes go in
+            because I want to remember them. The letters go in because I want
+            to remember the days they came from.
+          </p>
+          <p>
+            There are three pillars to this journal — <em>Kitchen</em>,{' '}
+            <em>Morocco</em>, <em>Travel</em>. They are not categories so
+            much as moods. The kitchen is most of it. Morocco is what I see
+            when I look up from the kitchen. Travel is when I leave for a
+            week and bring something home.
+          </p>
+          <p>
+            I live in a 300-year-old house that also welcomes guests — if
+            you want to come and stay, the riad is at{' '}
+            <Link href="https://riaddisiena.com" target="_blank" rel="noopener noreferrer">
+              riaddisiena.com
+            </Link>
+            .
+          </p>
+          <p>
+            Otherwise: thank you for reading. The letters are written for
+            anyone who wants to read them, and there is a list at{' '}
+            <Link href="/letters">Letters</Link> for the ones who would like
+            them in their inbox.
+          </p>
+        </div>
       </div>
-
-      <div className="mt-12 pt-8 border-t border-border">
-        <p className="text-sm text-secondary">
-          <strong className="text-ink">Jacqueline</strong><br />
-          37 Derb Fhal Zfriti, Ksour, Marrakech
-        </p>
-      </div>
-
-      <Newsletter />
-    </div>
+      <Signature />
+    </>
   );
 }
