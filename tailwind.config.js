@@ -7,14 +7,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        paper: '#faf9f5',
-        ink: '#222222',
-        body: '#333333',
-        secondary: '#555555',
-        muted: '#888888',
-        light: '#cccccc',
-        border: '#dcd6c8',
-        link: '#222222',
+        paper: '#ffffff',
+        ink: '#0a0a0a',
+        body: '#141414',
+        secondary: '#3a3a3a',
+        muted: '#5a5a5a',
+        light: '#bcbcbc',
+        border: '#e3ddd0',
+        link: '#0a0a0a',
         rust: '#9a4a26',
       },
       fontFamily: {
@@ -22,7 +22,7 @@ module.exports = {
         sans: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
       },
       maxWidth: {
-        column: '710px',
+        column: '690px',
       },
     },
   },

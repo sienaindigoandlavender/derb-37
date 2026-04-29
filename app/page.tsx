@@ -1,26 +1,64 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import PostStream from '@/components/PostStream';
-import Newsletter from '@/components/Newsletter';
 import { MedinaDivider } from '@/components/MedinaIllustrations';
 import { getRecentEntries } from '@/lib/content';
+import { canonical } from '@/lib/seo';
 
 export const revalidate = 300;
 
 const PER_PAGE = 6;
 
-export default async function Home({ searchParams }: { searchParams: { page?: string } }) {
+const HOME_DESCRIPTION =
+  'Short notes and recipes from a 300-year-old riad in the Marrakech medina, by Jacqueline Ng — kitchen, Morocco, travel.';
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}): Promise<Metadata> {
   const page = Math.max(1, parseInt(searchParams.page || '1', 10));
-  // Fetch one extra to detect "older posts"
+  const title =
+    page > 1
+      ? `Notes from Derb 37 — page ${page}`
+      : 'Derb 37 — notes from the Marrakech medina';
+  const path = page > 1 ? `/?page=${page}` : '/';
+  return {
+    title,
+    description: HOME_DESCRIPTION,
+    alternates: { canonical: canonical(path) },
+    openGraph: {
+      type: 'website',
+      url: canonical(path),
+      title,
+      description: HOME_DESCRIPTION,
+    },
+    twitter: { title, description: HOME_DESCRIPTION },
+  };
+}
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const page = Math.max(1, parseInt(searchParams.page || '1', 10));
   const entries = await getRecentEntries({ limit: PER_PAGE * page + 1 });
   const start = (page - 1) * PER_PAGE;
   const slice = entries.slice(start, start + PER_PAGE);
   const hasOlder = entries.length > start + PER_PAGE;
 
   return (
-    <div className="content-column pt-4 pb-8">
+    <div className="content-column pt-2 pb-6">
+      <h1 className="sr-only">
+        {page > 1
+          ? `Notes from Derb 37 — page ${page}`
+          : 'Notes from Derb 37 — a Marrakech medina journal'}
+      </h1>
+
       {slice.length === 0 && (
-        <p className="text-center italic text-secondary py-20">
-          The first letter is being written.
+        <p className="text-center italic text-secondary py-16">
+          The first note is being written.
         </p>
       )}
 
@@ -32,28 +70,30 @@ export default async function Home({ searchParams }: { searchParams: { page?: st
       ))}
 
       {(page > 1 || hasOlder) && (
-        <nav className="flex justify-between items-center mt-12 pt-8 border-t border-border">
+        <nav
+          className="flex justify-between items-center mt-10 pt-6 border-t border-border"
+          aria-label="Pagination"
+        >
           {page > 1 ? (
             <Link
               href={page === 2 ? '/' : `/?page=${page - 1}`}
               className="comment-link"
+              rel="prev"
             >
-              ← Newer letters
+              ← Newer notes
             </Link>
           ) : (
             <span />
           )}
           {hasOlder ? (
-            <Link href={`/?page=${page + 1}`} className="comment-link">
-              Older letters →
+            <Link href={`/?page=${page + 1}`} className="comment-link" rel="next">
+              Older notes →
             </Link>
           ) : (
             <span />
           )}
         </nav>
       )}
-
-      <Newsletter sourcePage="/" />
     </div>
   );
 }

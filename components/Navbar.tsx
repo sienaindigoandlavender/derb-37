@@ -11,7 +11,6 @@ const NAV_LINKS = [
   { href: '/travel', label: 'Travel' },
   { href: '/archive', label: 'Archive' },
   { href: '/about', label: 'About' },
-  { href: '/letters', label: 'Letters' },
 ];
 
 export default function Navbar() {
@@ -23,37 +22,35 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <header className="pt-12 pb-6">
-      {/* Tagine illustration — like Mimi's wreath */}
-      <div className="flex justify-center mb-4">
-        <HeaderTagine className="text-[#555]" />
+    <header className="pt-9 pb-4">
+      <div className="flex justify-center mb-3">
+        <HeaderTagine className="text-ink" />
       </div>
 
-      {/* Site name — BLACK, bold caps, like MIMI THORISSON */}
-      <div className="text-center mb-2">
-        <Link href="/" className="inline-block">
-          <h1
+      <div className="text-center mb-1">
+        <Link href="/" className="inline-block" aria-label="Derb 37 — home">
+          <p
             style={{
               fontFamily: 'Georgia, serif',
-              fontSize: '36px',
+              fontSize: '34px',
               fontWeight: 'bold',
-              letterSpacing: '0.14em',
-              color: '#222',
+              letterSpacing: '0.13em',
+              color: '#0a0a0a',
               textTransform: 'uppercase',
+              lineHeight: 1,
             }}
           >
             Derb 37
-          </h1>
+          </p>
         </Link>
       </div>
 
-      <p className="text-center text-[12px] tracking-[0.18em] uppercase text-muted font-sans mb-6">
-        a journal from a house in the medina
+      <p className="text-center text-[10.5px] tracking-[0.22em] uppercase text-secondary font-sans mb-5">
+        notes from a house in the medina
       </p>
 
-      {/* Nav — horizontal links with line above */}
-      <nav className="text-center border-t border-border pt-5 max-w-[640px] mx-auto px-6">
-        <ul className="hidden md:flex justify-center gap-8 list-none">
+      <nav className="text-center border-t border-border pt-4 max-w-[640px] mx-auto px-6" aria-label="Primary">
+        <ul className="hidden md:flex justify-center gap-7 list-none">
           {NAV_LINKS.map((link) => {
             const active =
               pathname === link.href ||
@@ -63,6 +60,7 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   className={`nav-link ${active ? '!text-ink' : ''}`}
+                  aria-current={active ? 'page' : undefined}
                 >
                   {link.label}
                 </Link>
@@ -71,17 +69,17 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* Mobile */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className="md:hidden nav-link"
           aria-label="Menu"
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? 'Close' : 'Menu'}
         </button>
 
         {mobileOpen && (
-          <div className="md:hidden mt-4 space-y-3">
+          <div className="md:hidden mt-3 space-y-2.5">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
