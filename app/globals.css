@@ -14,26 +14,23 @@
     font-family: var(--font-serif), 'EB Garamond', Georgia, serif;
     font-size: 18px;
     line-height: 1.72;
-    color: #1a1714;
-    background-color: #faf6ec;
-    background-image:
-      radial-gradient(ellipse at 25% 18%, rgba(140, 110, 70, 0.04) 0%, transparent 55%),
-      radial-gradient(ellipse at 80% 80%, rgba(120, 90, 60, 0.04) 0%, transparent 55%);
+    color: #171717;
+    background-color: #ffffff;
   }
 
   ::-webkit-scrollbar { display: none; }
   * { -ms-overflow-style: none; scrollbar-width: none; }
 
   a {
-    color: #0e0c08;
+    color: #0a0a0a;
     text-decoration: none;
     transition: color 0.15s ease;
   }
-  a:hover { color: #6b6356; }
+  a:hover { color: #6a6a6a; }
 
   ::selection {
     background: rgba(154, 74, 38, 0.18);
-    color: #0e0c08;
+    color: #0a0a0a;
   }
 }
 
@@ -50,7 +47,7 @@
     font-size: 64px;
     line-height: 1;
     letter-spacing: -0.005em;
-    color: #0e0c08;
+    color: #0a0a0a;
   }
 
   .wordmark .amp {
@@ -64,7 +61,7 @@
     font-size: 11.5px;
     letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #3a342a;
+    color: #3a3a3a;
     font-weight: 500;
   }
 
@@ -82,14 +79,14 @@
     flex: 1;
     max-width: 200px;
     height: 1px;
-    background: #d6cbb4;
+    background: #e6e3dd;
   }
   .post-date-text {
     font-family: var(--font-sc), Georgia, serif;
     font-size: 11px;
     letter-spacing: 0.34em;
     text-transform: uppercase;
-    color: #3a342a;
+    color: #3a3a3a;
     white-space: nowrap;
   }
 
@@ -99,7 +96,7 @@
     font-size: 11.5px;
     letter-spacing: 0.34em;
     text-transform: uppercase;
-    color: #3a342a;
+    color: #3a3a3a;
     text-align: center;
     position: relative;
     display: inline-block;
@@ -113,10 +110,10 @@
     transform: translateX(-50%);
     width: 46px;
     height: 1px;
-    background: #cdc0a3;
+    background: #d8d4cc;
   }
-  .post-category a { color: #3a342a; }
-  .post-category a:hover { color: #0e0c08; }
+  .post-category a { color: #3a3a3a; }
+  .post-category a:hover { color: #0a0a0a; }
 
   /* Post title — refined display italic, mixed case, generous */
   .post-title {
@@ -126,29 +123,29 @@
     font-style: italic;
     line-height: 1.12;
     letter-spacing: -0.005em;
-    color: #0e0c08;
+    color: #0a0a0a;
     text-align: center;
     margin: 18px auto 22px;
     max-width: 18ch;
   }
-  .post-title a { color: #0e0c08; }
-  .post-title a:hover { color: #6b6356; }
+  .post-title a { color: #0a0a0a; }
+  .post-title a:hover { color: #6a6a6a; }
 
   /* Body text */
   .post-body {
     font-family: var(--font-serif), 'EB Garamond', Georgia, serif;
     font-size: 18.5px;
     line-height: 1.74;
-    color: #1a1714;
+    color: #171717;
   }
   .post-body p { margin-bottom: 22px; }
-  .post-body strong { font-weight: 600; color: #0e0c08; }
-  .post-body em { font-style: italic; color: #0e0c08; }
+  .post-body strong { font-weight: 600; color: #0a0a0a; }
+  .post-body em { font-style: italic; color: #0a0a0a; }
   .post-body blockquote {
-    border-left: 1px solid #cdc0a3;
+    border-left: 1px solid #d8d4cc;
     padding-left: 22px;
     font-style: italic;
-    color: #3a342a;
+    color: #3a3a3a;
     margin: 24px 0;
   }
   .post-body h2 {
@@ -156,14 +153,14 @@
     font-size: 26px;
     font-style: italic;
     font-weight: 500;
-    color: #0e0c08;
+    color: #0a0a0a;
     margin: 32px 0 12px;
   }
   .post-body h3 {
     font-family: var(--font-display), Georgia, serif;
     font-size: 21px;
     font-weight: 500;
-    color: #0e0c08;
+    color: #0a0a0a;
     margin: 26px 0 10px;
   }
   .post-body a {
@@ -184,7 +181,7 @@
     font-family: var(--font-serif), 'EB Garamond', Georgia, serif;
     font-size: 17px;
     line-height: 1.85;
-    color: #1a1714;
+    color: #171717;
   }
 
   /* Subtle nav, comment, kindred styles */
@@ -193,19 +190,19 @@
     font-size: 11.5px;
     letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #3a342a;
+    color: #3a3a3a;
     transition: color 0.15s;
   }
-  .nav-link:hover { color: #0e0c08; }
+  .nav-link:hover { color: #0a0a0a; }
 
   .comment-link {
     font-family: var(--font-sc), Georgia, serif;
     font-size: 11px;
     letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #3a342a;
+    color: #3a3a3a;
   }
-  .comment-link:hover { color: #0e0c08; }
+  .comment-link:hover { color: #0a0a0a; }
 
   /* Whisper-small kindred row */
   .kindred-link {
@@ -213,10 +210,10 @@
     font-size: 9.5px;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: #6b6356;
+    color: #6a6a6a;
     transition: color 0.15s;
   }
-  .kindred-link:hover { color: #3a342a; }
+  .kindred-link:hover { color: #3a3a3a; }
 
   /* Decorative ornament rule */
   .ornament-rule {
@@ -224,7 +221,7 @@
     align-items: center;
     justify-content: center;
     gap: 18px;
-    color: #6b6356;
+    color: #6a6a6a;
   }
   .ornament-rule::before,
   .ornament-rule::after {
@@ -232,12 +229,12 @@
     flex: 1;
     max-width: 200px;
     height: 1px;
-    background: #d6cbb4;
+    background: #e6e3dd;
   }
   .ornament-rule .ornament {
     font-family: var(--font-display), Georgia, serif;
     font-size: 14px;
-    color: #6b6356;
+    color: #6a6a6a;
   }
 
   .sr-only {

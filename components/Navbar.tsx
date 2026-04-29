@@ -24,7 +24,7 @@ export default function Navbar() {
   return (
     <header className="pt-12 pb-7">
       <div className="flex justify-center mb-3">
-        <HeaderTagine className="text-[#3a342a]" />
+        <HeaderTagine className="text-[#3a3a3a]" />
       </div>
 
       <div className="text-center">
