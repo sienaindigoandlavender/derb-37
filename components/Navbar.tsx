@@ -35,7 +35,7 @@ export default function Navbar() {
         </Link>
       </div>
 
-      <p className="text-center font-display italic text-secondary text-[18px] mt-3 mb-7">
+      <p className="text-center font-display italic text-black text-[21px] mt-3 mb-7">
         a journal from a house in the medina
       </p>
 

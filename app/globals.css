@@ -26,7 +26,7 @@
     text-decoration: none;
     transition: color 0.15s ease;
   }
-  a:hover { color: #2a2a2a; }
+  a:hover { color: #1a1a1a; }
 
   ::selection {
     background: rgba(154, 74, 38, 0.18);
@@ -58,11 +58,11 @@
   /* Small-caps eyebrow */
   .eyebrow {
     font-family: var(--font-sc), Georgia, serif;
-    font-size: 11.5px;
-    letter-spacing: 0.32em;
+    font-size: 14.5px;
+    letter-spacing: 0.26em;
     text-transform: uppercase;
-    color: #1a1a1a;
-    font-weight: 500;
+    color: #000000;
+    font-weight: 600;
   }
 
   /* Date row with thin flanking lines */
@@ -83,20 +83,22 @@
   }
   .post-date-text {
     font-family: var(--font-sc), Georgia, serif;
-    font-size: 11px;
-    letter-spacing: 0.34em;
+    font-size: 13.5px;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: #1a1a1a;
+    color: #000000;
+    font-weight: 600;
     white-space: nowrap;
   }
 
   /* Category eyebrow with short underline */
   .post-category {
     font-family: var(--font-sc), Georgia, serif;
-    font-size: 11.5px;
-    letter-spacing: 0.34em;
+    font-size: 14.5px;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: #1a1a1a;
+    color: #000000;
+    font-weight: 600;
     text-align: center;
     position: relative;
     display: inline-block;
@@ -112,7 +114,7 @@
     height: 1px;
     background: #d8d4cc;
   }
-  .post-category a { color: #1a1a1a; }
+  .post-category a { color: #000000; }
   .post-category a:hover { color: #0a0a0a; }
 
   /* Post title — refined display italic, mixed case, generous */
@@ -129,7 +131,7 @@
     max-width: 18ch;
   }
   .post-title a { color: #0a0a0a; }
-  .post-title a:hover { color: #2a2a2a; }
+  .post-title a:hover { color: #1a1a1a; }
 
   /* Body text */
   .post-body {
@@ -145,7 +147,7 @@
     border-left: 1px solid #d8d4cc;
     padding-left: 22px;
     font-style: italic;
-    color: #1a1a1a;
+    color: #000000;
     margin: 24px 0;
   }
   .post-body h2 {
@@ -187,33 +189,36 @@
   /* Subtle nav, comment, kindred styles */
   .nav-link {
     font-family: var(--font-sc), Georgia, serif;
-    font-size: 11.5px;
-    letter-spacing: 0.32em;
+    font-size: 14.5px;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: #1a1a1a;
+    color: #000000;
+    font-weight: 600;
     transition: color 0.15s;
   }
   .nav-link:hover { color: #0a0a0a; }
 
   .comment-link {
     font-family: var(--font-sc), Georgia, serif;
-    font-size: 11px;
-    letter-spacing: 0.32em;
+    font-size: 13.5px;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: #1a1a1a;
+    color: #000000;
+    font-weight: 600;
   }
   .comment-link:hover { color: #0a0a0a; }
 
-  /* Whisper-small kindred row */
+  /* Quiet kindred row — readable, still subordinate */
   .kindred-link {
     font-family: var(--font-sc), Georgia, serif;
-    font-size: 9.5px;
-    letter-spacing: 0.28em;
+    font-size: 12px;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #2a2a2a;
+    color: #1a1a1a;
+    font-weight: 500;
     transition: color 0.15s;
   }
-  .kindred-link:hover { color: #1a1a1a; }
+  .kindred-link:hover { color: #000000; }
 
   /* Decorative ornament rule */
   .ornament-rule {
@@ -221,7 +226,7 @@
     align-items: center;
     justify-content: center;
     gap: 18px;
-    color: #2a2a2a;
+    color: #1a1a1a;
   }
   .ornament-rule::before,
   .ornament-rule::after {
@@ -234,7 +239,7 @@
   .ornament-rule .ornament {
     font-family: var(--font-display), Georgia, serif;
     font-size: 14px;
-    color: #2a2a2a;
+    color: #1a1a1a;
   }
 
   .sr-only {
