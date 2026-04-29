@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import PageHeading from '@/components/PageHeading';
-import SubscribeForm from '@/components/SubscribeForm';
+import Newsletter from '@/components/Newsletter';
 
 export const metadata: Metadata = {
   title: 'Letters',
@@ -13,33 +12,33 @@ export default function LettersPage({ searchParams }: { searchParams: { status?:
   const status = searchParams.status;
 
   return (
-    <>
-      <PageHeading
-        eyebrow="The list"
-        title="Letters"
-        subtitle="A letter when there's a letter. Nothing else."
-      />
-
-      <div className="px-6 pb-24">
-        {status === 'confirmed' && (
-          <p className="font-display italic text-[20px] text-ink-soft text-center max-w-md mx-auto mb-10">
-            You're on the list. The next letter will find you in your inbox.
-          </p>
-        )}
-        {status === 'error' && (
-          <p className="font-display italic text-rust text-center max-w-md mx-auto mb-10 text-[18px]">
-            Something went sideways with that link. Try subscribing again
-            below.
-          </p>
-        )}
-        {status !== 'confirmed' && <SubscribeForm sourcePage="/letters" />}
-
-        <p className="mt-16 text-center font-display italic text-secondary text-[15px] max-w-md mx-auto leading-relaxed">
-          A confirmation note will arrive after you sign up. Click the link
-          inside it and you'll be added to the list. Unsubscribing is a
-          single click in any letter.
+    <div className="content-column pt-4 pb-12">
+      <header className="text-center mb-10">
+        <p className="post-category mb-6">The list</p>
+        <h1 className="post-title">Letters</h1>
+        <p className="italic text-secondary text-[15px] max-w-md mx-auto -mt-2">
+          A letter when there&apos;s a letter. Nothing else.
         </p>
-      </div>
-    </>
+      </header>
+
+      {status === 'confirmed' && (
+        <p className="italic text-secondary text-center max-w-md mx-auto mb-8 text-[15px]">
+          You&apos;re on the list. The next letter will find you in your inbox.
+        </p>
+      )}
+      {status === 'error' && (
+        <p className="italic text-secondary text-center max-w-md mx-auto mb-8 text-[15px]">
+          Something went sideways with that link. Try subscribing again below.
+        </p>
+      )}
+
+      {status !== 'confirmed' && <Newsletter sourcePage="/letters" />}
+
+      <p className="mt-12 text-center italic text-muted text-[14px] max-w-md mx-auto leading-relaxed">
+        A confirmation note will arrive after you sign up. Click the link
+        inside it and you&apos;ll be added to the list. Unsubscribing is a
+        single click in any letter.
+      </p>
+    </div>
   );
 }

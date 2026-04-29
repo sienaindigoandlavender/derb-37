@@ -1,46 +1,59 @@
-import EntryFeatured from '@/components/EntryFeatured';
-import EntryBody from '@/components/EntryBody';
-import RecipeCard from '@/components/RecipeCard';
-import Signature from '@/components/Signature';
-import ArchiveGrid from '@/components/ArchiveGrid';
-import Colophon from '@/components/Colophon';
-import { getLatestEntry, getRecentEntries } from '@/lib/content';
+import Link from 'next/link';
+import PostStream from '@/components/PostStream';
+import Newsletter from '@/components/Newsletter';
+import { MedinaDivider } from '@/components/MedinaIllustrations';
+import { getRecentEntries } from '@/lib/content';
 
 export const revalidate = 300;
 
-export default async function Home() {
-  const latest = await getLatestEntry();
-  const archive = await getRecentEntries({ limit: 6, excludeId: latest?.id });
+const PER_PAGE = 6;
 
-  if (!latest) {
-    return (
-      <>
-        <div className="px-6 py-24 text-center">
-          <p className="font-display italic text-secondary text-[20px]">
-            The first letter is being written.
-          </p>
-        </div>
-        <Colophon />
-      </>
-    );
-  }
+export default async function Home({ searchParams }: { searchParams: { page?: string } }) {
+  const page = Math.max(1, parseInt(searchParams.page || '1', 10));
+  // Fetch one extra to detect "older posts"
+  const entries = await getRecentEntries({ limit: PER_PAGE * page + 1 });
+  const start = (page - 1) * PER_PAGE;
+  const slice = entries.slice(start, start + PER_PAGE);
+  const hasOlder = entries.length > start + PER_PAGE;
 
   return (
-    <>
-      <EntryFeatured entry={latest} headingLevel="h1" />
-      <article>
-        <EntryBody body={latest.story_body} />
-        {latest.has_recipe && <RecipeCard entry={latest} />}
-        <Signature />
-      </article>
-      {archive.length > 0 && (
-        <ArchiveGrid
-          entries={archive}
-          eyebrow="More from the journal"
-          title="Recent letters"
-        />
+    <div className="content-column pt-4 pb-8">
+      {slice.length === 0 && (
+        <p className="text-center italic text-secondary py-20">
+          The first letter is being written.
+        </p>
       )}
-      <Colophon />
-    </>
+
+      {slice.map((entry, i) => (
+        <div key={entry.id}>
+          <PostStream entry={entry} />
+          {i < slice.length - 1 && <MedinaDivider index={i} />}
+        </div>
+      ))}
+
+      {(page > 1 || hasOlder) && (
+        <nav className="flex justify-between items-center mt-12 pt-8 border-t border-border">
+          {page > 1 ? (
+            <Link
+              href={page === 2 ? '/' : `/?page=${page - 1}`}
+              className="comment-link"
+            >
+              ← Newer letters
+            </Link>
+          ) : (
+            <span />
+          )}
+          {hasOlder ? (
+            <Link href={`/?page=${page + 1}`} className="comment-link">
+              Older letters →
+            </Link>
+          ) : (
+            <span />
+          )}
+        </nav>
+      )}
+
+      <Newsletter sourcePage="/" />
+    </div>
   );
 }

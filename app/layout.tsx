@@ -1,32 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { EB_Garamond, Cormorant_Garamond, Cormorant_SC } from 'next/font/google';
-import Masthead from '@/components/Masthead';
-import PrimaryNav from '@/components/PrimaryNav';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getSettings } from '@/lib/content';
-
-const ebGaramond = EB_Garamond({
-  subsets: ['latin'],
-  variable: '--font-serif',
-  weight: ['400', '500'],
-  display: 'swap',
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  variable: '--font-display',
-  weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
-  display: 'swap',
-});
-
-const cormorantSC = Cormorant_SC({
-  subsets: ['latin'],
-  variable: '--font-sc',
-  weight: ['400', '500'],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://derb37.com'),
@@ -58,11 +33,9 @@ export const metadata: Metadata = {
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const settings = await getSettings();
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${ebGaramond.variable} ${cormorant.variable} ${cormorantSC.variable}`}>
+    <html lang="en">
       <head>
         {GA_ID && (
           <>
@@ -76,8 +49,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         )}
       </head>
       <body>
-        <Masthead settings={settings} />
-        <PrimaryNav />
+        <Navbar />
         <main>{children}</main>
         <Footer />
       </body>
