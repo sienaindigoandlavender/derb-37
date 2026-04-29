@@ -34,14 +34,14 @@ export default function PostStream({
   const TitleTag = asPermalink ? 'h1' : 'h2';
 
   return (
-    <article className="mb-8 pb-2">
+    <article className="mb-14 pb-2">
       <div className="post-date-row">
         <time className="post-date-text" dateTime={entry.entry_date}>
           {formatDate(entry.entry_date)}
         </time>
       </div>
 
-      <div className="flex justify-center mb-3">
+      <div className="flex justify-center mb-4">
         <SmallTagineSVG className="text-secondary" />
       </div>
 
@@ -60,18 +60,18 @@ export default function PostStream({
       </TitleTag>
 
       {entry.hero_image && (
-        <figure className="mb-5">
+        <figure className="mb-7">
           <Image
             src={entry.hero_image}
             alt={entry.hero_caption || entry.title}
-            width={690}
-            height={518}
+            width={720}
+            height={540}
             className="w-full h-auto"
             priority={asPermalink}
-            sizes="(max-width: 768px) 100vw, 690px"
+            sizes="(max-width: 768px) 100vw, 720px"
           />
           {entry.hero_caption && (
-            <figcaption className="text-[11px] tracking-[0.06em] text-secondary italic text-center mt-2">
+            <figcaption className="font-display italic text-secondary text-[14px] text-center mt-3">
               {entry.hero_caption}
             </figcaption>
           )}
@@ -86,19 +86,19 @@ export default function PostStream({
       )}
 
       {entry.images && entry.images.length > 0 && (
-        <div className="my-5 space-y-4">
+        <div className="my-6 space-y-5">
           {entry.images.map((img, i) => (
             <figure key={i}>
               <Image
                 src={img.url}
                 alt={img.alt || entry.title}
-                width={690}
-                height={518}
+                width={720}
+                height={540}
                 className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 690px"
+                sizes="(max-width: 768px) 100vw, 720px"
               />
               {img.caption && (
-                <figcaption className="text-[11px] tracking-[0.06em] text-secondary mt-2 italic text-center">
+                <figcaption className="font-display italic text-secondary text-[14px] text-center mt-3">
                   {img.caption}
                 </figcaption>
               )}
@@ -108,24 +108,26 @@ export default function PostStream({
       )}
 
       {entry.has_recipe && (
-        <div className="post-body mt-6 pt-5 border-t border-border">
+        <div className="post-body mt-8 pt-6 border-t border-border">
           {entry.recipe_title && (
-            <p>
-              <strong>{entry.recipe_title}</strong>
-              {entry.recipe_yield && (
-                <>
-                  {' '}— <em className="text-secondary">{entry.recipe_yield}</em>
-                </>
-              )}
+            <p className="text-center mb-1">
+              <span className="font-display italic text-[24px] text-ink">
+                {entry.recipe_title}
+              </span>
+            </p>
+          )}
+          {entry.recipe_yield && (
+            <p className="text-center font-display italic text-secondary text-[14px] mb-5">
+              {entry.recipe_yield}
             </p>
           )}
 
           {entry.recipe_sections && entry.recipe_sections.length > 0 && (
-            <div className="recipe-ingredients my-3">
+            <div className="recipe-ingredients my-4">
               {entry.recipe_sections.map((section, si) => (
-                <div key={si} className="mb-3">
+                <div key={si} className="mb-4">
                   {section.label && (
-                    <p className="font-sans text-[10.5px] tracking-[0.22em] uppercase text-secondary mb-1.5 mt-3">
+                    <p className="eyebrow text-center mb-2 mt-4">
                       {section.label}
                     </p>
                   )}
@@ -141,7 +143,7 @@ export default function PostStream({
 
           {methodHtml && (
             <div
-              className="mt-3"
+              className="mt-5"
               dangerouslySetInnerHTML={{ __html: methodHtml }}
             />
           )}

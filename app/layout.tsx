@@ -1,11 +1,35 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
+import { EB_Garamond, Playfair_Display, Cormorant_SC } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { SITE_NAME, SITE_URL, siteJsonLd } from '@/lib/seo';
 
+const ebGaramond = EB_Garamond({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-display',
+  weight: ['400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+});
+
+const cormorantSC = Cormorant_SC({
+  subsets: ['latin'],
+  variable: '--font-sc',
+  weight: ['400', '500', '600'],
+  display: 'swap',
+});
+
 const DEFAULT_DESCRIPTION =
-  'Short notes and recipes from a 300-year-old riad in the Marrakech medina, by Jacqueline Ng. Kitchen, Morocco, travel.';
+  'Short notes and recipes from a 300-year-old riad in the Marrakech medina, by Jacqueline. A kitchen, mostly. And a life around the kitchen.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -16,8 +40,8 @@ export const metadata: Metadata = {
   description: DEFAULT_DESCRIPTION,
   alternates: { canonical: '/' },
   applicationName: SITE_NAME,
-  authors: [{ name: 'Jacqueline Ng', url: `${SITE_URL}/about` }],
-  creator: 'Jacqueline Ng',
+  authors: [{ name: 'Jacqueline', url: `${SITE_URL}/about` }],
+  creator: 'Jacqueline',
   publisher: SITE_NAME,
   keywords: [
     'Marrakech',
@@ -26,7 +50,6 @@ export const metadata: Metadata = {
     'food notes',
     'Moroccan recipes',
     'riad',
-    'Jacqueline Ng',
     'Derb 37',
   ],
   openGraph: {
@@ -67,7 +90,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#ffffff',
+  themeColor: '#faf6ec',
   width: 'device-width',
   initialScale: 1,
 };
@@ -76,7 +99,10 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${ebGaramond.variable} ${playfair.variable} ${cormorantSC.variable}`}
+    >
       <head>
         <script
           type="application/ld+json"

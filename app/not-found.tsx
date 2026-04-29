@@ -10,9 +10,11 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <div className="content-column pt-10 pb-16 text-center">
-      <p className="post-category mb-4">Lost in the derb</p>
-      <h1 className="post-title">This page isn&apos;t here</h1>
-      <p className="italic text-secondary text-[15px] max-w-md mx-auto mb-7">
+      <p className="eyebrow mb-5">Lost in the derb</p>
+      <h1 className="font-display italic font-medium text-ink text-[40px] leading-[1.05] tracking-[-0.005em] mb-5">
+        This page isn&apos;t here
+      </h1>
+      <p className="font-display italic text-secondary text-[18px] max-w-md mx-auto mb-8">
         The doorway you knocked at doesn&apos;t open onto anything yet. The
         kitchen is still warm, though.
       </p>

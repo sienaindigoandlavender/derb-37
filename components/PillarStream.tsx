@@ -31,31 +31,24 @@ export default async function PillarStream({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
       />
-      <div className="content-column pt-2 pb-6">
-        <header className="text-center mb-8">
-          <p className="post-category mb-4">{pillar}</p>
-          <h1
-            style={{
-              fontFamily: 'Georgia, serif',
-              fontSize: '28px',
-              fontWeight: 'normal',
-              letterSpacing: '0.08em',
-              color: '#0a0a0a',
-              textTransform: 'uppercase',
-              margin: 0,
-            }}
-          >
+      <div className="content-column pt-2 pb-8">
+        <header className="text-center mb-12">
+          <p className="eyebrow mb-4">{pillar}</p>
+          <h1 className="font-display italic font-medium text-ink text-[44px] leading-[1.05] tracking-[-0.005em]">
             {pillarLabel(pillar)}
           </h1>
           {intro && (
-            <p className="italic text-secondary text-[14px] mt-3 max-w-md mx-auto">
+            <p className="font-display italic text-secondary text-[18px] mt-4 max-w-md mx-auto leading-snug">
               {intro}
             </p>
           )}
+          <div className="ornament-rule mt-7 mx-auto max-w-md">
+            <span className="ornament">✦</span>
+          </div>
         </header>
 
         {entries.length === 0 && (
-          <p className="text-center italic text-secondary py-16">
+          <p className="text-center font-display italic text-secondary py-16 text-[18px]">
             No notes here yet.
           </p>
         )}
@@ -69,7 +62,7 @@ export default async function PillarStream({
 
         {totalPages > 1 && (
           <nav
-            className="flex justify-between items-center mt-10 pt-6 border-t border-border"
+            className="flex justify-between items-center mt-12 pt-7 border-t border-border"
             aria-label="Pagination"
           >
             {page > 1 ? (

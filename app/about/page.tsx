@@ -29,18 +29,23 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
       />
-      <div className="content-column pt-2 pb-10">
-        <header className="text-center mb-8">
-          <p className="post-category mb-4">A note from the writer</p>
-          <h1 className="post-title">About</h1>
+      <div className="content-column pt-2 pb-12">
+        <header className="text-center mb-9">
+          <p className="eyebrow mb-4">A note from the writer</p>
+          <h1 className="font-display italic font-medium text-ink text-[48px] leading-[1.05] tracking-[-0.005em]">
+            About
+          </h1>
+          <div className="ornament-rule mt-7 mx-auto max-w-md">
+            <span className="ornament">✦</span>
+          </div>
         </header>
 
-        <figure className="text-center mb-7">
-          <blockquote className="!border-0 !pl-0 !my-0 font-serif italic text-ink text-[19px] leading-snug">
+        <figure className="text-center mb-8">
+          <blockquote className="!border-0 !pl-0 !my-0 font-display italic text-ink text-[22px] leading-snug">
             “I had a farm in Africa, at the foot of the Ngong Hills.”
           </blockquote>
-          <figcaption className="font-sans text-[10.5px] tracking-[0.22em] uppercase text-secondary mt-3">
-            — Out of Africa, Isak Dinesen
+          <figcaption className="eyebrow mt-3 inline-block">
+            Out of Africa, Isak Dinesen
           </figcaption>
         </figure>
 
@@ -83,10 +88,11 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="mt-8 pt-5 text-center border-t border-border">
-          <p className="font-sans text-[11px] tracking-[0.2em] uppercase text-ink">
-            — Jacqueline · Derb 37 · Marrakech
+        <div className="mt-10 pt-6 text-center border-t border-border">
+          <p className="font-display italic text-[20px] text-ink mb-1">
+            — Jacqueline
           </p>
+          <p className="eyebrow">Derb 37 · Marrakech</p>
         </div>
       </div>
     </>

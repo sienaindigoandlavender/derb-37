@@ -23,10 +23,15 @@ export default function PrivacyPage() {
   const html = marked.parse(body, { async: false }) as string;
 
   return (
-    <div className="content-column pt-2 pb-10">
-      <header className="text-center mb-8">
-        <p className="post-category mb-4">The fine print</p>
-        <h1 className="post-title">Privacy</h1>
+    <div className="content-column pt-2 pb-12">
+      <header className="text-center mb-9">
+        <p className="eyebrow mb-4">The fine print</p>
+        <h1 className="font-display italic font-medium text-ink text-[44px] leading-[1.05] tracking-[-0.005em]">
+          Privacy
+        </h1>
+        <div className="ornament-rule mt-7 mx-auto max-w-md">
+          <span className="ornament">✦</span>
+        </div>
       </header>
       <div className="post-body" dangerouslySetInnerHTML={{ __html: html }} />
     </div>
