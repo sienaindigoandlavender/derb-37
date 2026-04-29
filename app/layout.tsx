@@ -29,41 +29,45 @@ const cormorantSC = Cormorant_SC({
 });
 
 const DEFAULT_DESCRIPTION =
-  'Short notes and recipes from a 300-year-old riad in the Marrakech medina, by Jacqueline. A kitchen, mostly. And a life around the kitchen.';
+  'The cuisine of Morocco, written from inside it. A journal of recipes, kitchen notes, and dispatches from a 300-year-old riad in the Marrakech medina, by J. Ng.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Derb 37 — notes from the Marrakech medina',
+    default: 'Derb 37 — the cuisine of Morocco, written from inside it',
     template: '%s · Derb 37',
   },
   description: DEFAULT_DESCRIPTION,
   alternates: { canonical: '/' },
   applicationName: SITE_NAME,
-  authors: [{ name: 'Jacqueline', url: `${SITE_URL}/about` }],
-  creator: 'Jacqueline',
+  authors: [{ name: 'J. Ng', url: `${SITE_URL}/about` }],
+  creator: 'J. Ng',
   publisher: SITE_NAME,
   keywords: [
-    'Marrakech',
-    'medina',
-    'Morocco',
-    'food notes',
+    'Moroccan cuisine',
     'Moroccan recipes',
+    'Marrakech medina',
+    'tagine',
+    'harira',
+    'preserved lemon',
+    'msemen',
+    'ras el hanout',
     'riad',
     'Derb 37',
+    'J. Ng',
   ],
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: 'Derb 37 — notes from the Marrakech medina',
+    title: 'Derb 37 — the cuisine of Morocco, written from inside it',
     description: DEFAULT_DESCRIPTION,
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Derb 37' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Derb 37',
+    title: 'Derb 37 — the cuisine of Morocco',
     description: DEFAULT_DESCRIPTION,
     images: ['/og-image.jpg'],
   },

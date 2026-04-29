@@ -13,6 +13,27 @@ export type EntryImage = {
 
 export type Pillar = 'kitchen' | 'morocco' | 'travel';
 
+export type CuisineCategory =
+  | 'tagines'
+  | 'breads'
+  | 'soups-stews'
+  | 'sweets'
+  | 'preserves'
+  | 'salads-mezze'
+  | 'street-food'
+  | 'feast-day';
+
+export type PantryItem = {
+  name: string;
+  note?: string;
+  zfriti_url: string;
+};
+
+export type Pantry = {
+  intro: string;
+  items: PantryItem[];
+};
+
 export type Entry = {
   id: number;
   slug: string;
@@ -27,6 +48,8 @@ export type Entry = {
   recipe_sections: RecipeSection[] | null;
   recipe_method: string | null;
   cultural_origins: string[] | null;
+  cuisine_category: CuisineCategory | null;
+  pantry: Pantry | null;
   season: string | null;
   image_prompt: string | null;
   hero_image: string | null;
@@ -38,6 +61,69 @@ export type Entry = {
   created_at: string;
   updated_at: string;
 };
+
+// Authority taxonomy for the Kitchen pillar — every category gets a hub
+// page at /kitchen/[slug]. Intros and labels are the canonical house copy.
+export const CUISINE_CATEGORIES: ReadonlyArray<{
+  slug: CuisineCategory;
+  label: string;
+  intro: string;
+}> = [
+  {
+    slug: 'tagines',
+    label: 'Tagines',
+    intro: 'The slow ones. The Friday ones. The ones that taught me patience.',
+  },
+  {
+    slug: 'breads',
+    label: 'Breads',
+    intro:
+      'Khobz on the counter, msemen on the griddle, the baker at the corner who knows the house by name.',
+  },
+  {
+    slug: 'soups-stews',
+    label: 'Soups & Stews',
+    intro:
+      'Harira at sundown, bissara in February, the pot that has been on since noon.',
+  },
+  {
+    slug: 'sweets',
+    label: 'Sweets',
+    intro:
+      'Almonds, orange flower, honey that runs slow. Mostly for the table at Eid, sometimes for a Tuesday.',
+  },
+  {
+    slug: 'preserves',
+    label: 'Preserves',
+    intro: 'Lemons in salt, tomatoes in oil, the small jars that change everything.',
+  },
+  {
+    slug: 'salads-mezze',
+    label: 'Salads & Mezze',
+    intro:
+      'The little plates that arrive before anything else. Cooked, raw, smoked, charred — never an afterthought.',
+  },
+  {
+    slug: 'street-food',
+    label: 'Street Food',
+    intro:
+      'What the medina eats standing up. Snail broth at midnight, msemen at dawn, sardines off the brazier.',
+  },
+  {
+    slug: 'feast-day',
+    label: 'Feast Days',
+    intro:
+      'Eid, Ramadan, the wedding three streets over. The cooking that takes two days and feeds the neighbourhood.',
+  },
+];
+
+export function findCuisineCategory(slug: string) {
+  return CUISINE_CATEGORIES.find((c) => c.slug === slug) || null;
+}
+
+export function cuisineCategoryLabel(slug: CuisineCategory): string {
+  return CUISINE_CATEGORIES.find((c) => c.slug === slug)?.label || slug;
+}
 
 export type Settings = {
   site_title: string;
@@ -83,6 +169,31 @@ export async function getEntriesByPillar(
   const from = (page - 1) * perPage;
   const to = from + perPage;
   return { entries: all.slice(from, to), total: all.length };
+}
+
+export async function getKitchenCategoryEntries(
+  category: CuisineCategory,
+  opts: { page?: number; perPage?: number } = {}
+): Promise<{ entries: Entry[]; total: number }> {
+  const { page = 1, perPage = 12 } = opts;
+  const all = publishedSorted().filter(
+    (e) => e.pillar === 'kitchen' && e.cuisine_category === category
+  );
+  const from = (page - 1) * perPage;
+  const to = from + perPage;
+  return { entries: all.slice(from, to), total: all.length };
+}
+
+export async function getKitchenCategoryCounts(): Promise<Record<CuisineCategory, number>> {
+  const acc = Object.fromEntries(
+    CUISINE_CATEGORIES.map((c) => [c.slug, 0])
+  ) as Record<CuisineCategory, number>;
+  for (const e of publishedSorted()) {
+    if (e.pillar === 'kitchen' && e.cuisine_category) {
+      acc[e.cuisine_category] = (acc[e.cuisine_category] || 0) + 1;
+    }
+  }
+  return acc;
 }
 
 export async function getAllPublishedEntries(): Promise<Entry[]> {

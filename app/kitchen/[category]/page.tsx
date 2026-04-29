@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import PostStream from '@/components/PostStream';
 import CategoryIndex from '@/components/CategoryIndex';
 import { MedinaDivider } from '@/components/MedinaIllustrations';
 import {
-  getEntriesByPillar,
+  CUISINE_CATEGORIES,
+  CuisineCategory,
+  findCuisineCategory,
+  getKitchenCategoryEntries,
   getKitchenCategoryCounts,
   pillarLabel,
 } from '@/lib/content';
@@ -12,41 +16,60 @@ import { breadcrumbsJsonLd, canonical } from '@/lib/seo';
 
 export const revalidate = 300;
 
-const PER_PAGE = 6;
+const PER_PAGE = 12;
 
-const DESC =
-  'The cuisine of Morocco from a 300-year-old riad in the Marrakech medina — tagines, breads, soups and stews, sweets, preserves, mezze, street food, feast days.';
-
-export async function generateMetadata({
-  searchParams,
-}: {
+type Props = {
+  params: { category: string };
   searchParams: { page?: string };
-}): Promise<Metadata> {
+};
+
+export function generateStaticParams() {
+  return CUISINE_CATEGORIES.map((c) => ({ category: c.slug }));
+}
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const cat = findCuisineCategory(params.category);
+  if (!cat) return { title: 'Not Found', robots: { index: false, follow: false } };
+
   const page = Math.max(1, parseInt(searchParams.page || '1', 10));
-  const path = page > 1 ? `/kitchen?page=${page}` : '/kitchen';
-  const title = page > 1 ? `From the Kitchen — page ${page}` : 'From the Kitchen';
+  const path = page > 1
+    ? `/kitchen/${cat.slug}?page=${page}`
+    : `/kitchen/${cat.slug}`;
+  const title = page > 1
+    ? `${cat.label} — page ${page}`
+    : `${cat.label}`;
+  const description = `${cat.intro} Moroccan ${cat.label.toLowerCase()} from Derb 37, a journal from a riad in the Marrakech medina.`;
+
   return {
     title,
-    description: DESC,
+    description,
     alternates: { canonical: canonical(path) },
-    openGraph: { type: 'website', url: canonical(path), title, description: DESC },
-    twitter: { title, description: DESC },
+    openGraph: {
+      type: 'website',
+      url: canonical(path),
+      title: `${cat.label} · Derb 37`,
+      description,
+    },
+    twitter: { title: `${cat.label} · Derb 37`, description },
   };
 }
 
-export default async function KitchenPage({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
+export default async function KitchenCategoryPage({ params, searchParams }: Props) {
+  const cat = findCuisineCategory(params.category);
+  if (!cat) notFound();
+
   const page = Math.max(1, parseInt(searchParams.page || '1', 10));
-  const { entries, total } = await getEntriesByPillar('kitchen', { page, perPage: PER_PAGE });
+  const { entries, total } = await getKitchenCategoryEntries(cat.slug as CuisineCategory, {
+    page,
+    perPage: PER_PAGE,
+  });
   const counts = await getKitchenCategoryCounts();
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
 
   const breadcrumbs = breadcrumbsJsonLd([
     { name: 'Home', path: '/' },
     { name: pillarLabel('kitchen'), path: '/kitchen' },
+    { name: cat.label, path: `/kitchen/${cat.slug}` },
   ]);
 
   return (
@@ -57,24 +80,27 @@ export default async function KitchenPage({
       />
       <div className="content-column pt-2 pb-8">
         <header className="text-center mb-10">
-          <p className="eyebrow mb-4">kitchen</p>
+          <p className="eyebrow mb-4">
+            <Link href="/kitchen" className="hover:text-secondary">Kitchen</Link>
+            {' '}·{' '}
+            <span>{cat.label.toLowerCase()}</span>
+          </p>
           <h1 className="font-display italic font-medium text-ink text-[44px] leading-[1.05] tracking-[-0.005em]">
-            From the Kitchen
+            {cat.label}
           </h1>
           <p className="font-display italic text-ink text-[18px] mt-4 max-w-md mx-auto leading-snug">
-            What was on the stove, what came home from the souk, what made it
-            onto the table.
+            {cat.intro}
           </p>
           <div className="ornament-rule mt-7 mx-auto max-w-md">
             <span className="ornament">✦</span>
           </div>
         </header>
 
-        <CategoryIndex counts={counts} />
+        <CategoryIndex counts={counts} activeSlug={cat.slug} />
 
         {entries.length === 0 ? (
           <p className="text-center font-display italic text-secondary py-16 text-[18px]">
-            No notes here yet.
+            No notes in this corner yet. Coming.
           </p>
         ) : (
           entries.map((entry, i) => (
@@ -92,7 +118,11 @@ export default async function KitchenPage({
           >
             {page > 1 ? (
               <Link
-                href={page === 2 ? '/kitchen' : `/kitchen?page=${page - 1}`}
+                href={
+                  page === 2
+                    ? `/kitchen/${cat.slug}`
+                    : `/kitchen/${cat.slug}?page=${page - 1}`
+                }
                 className="comment-link"
                 rel="prev"
               >
@@ -102,7 +132,11 @@ export default async function KitchenPage({
               <span />
             )}
             {page < totalPages ? (
-              <Link href={`/kitchen?page=${page + 1}`} className="comment-link" rel="next">
+              <Link
+                href={`/kitchen/${cat.slug}?page=${page + 1}`}
+                className="comment-link"
+                rel="next"
+              >
                 Older notes →
               </Link>
             ) : (
@@ -110,6 +144,12 @@ export default async function KitchenPage({
             )}
           </nav>
         )}
+
+        <div className="mt-10 pt-6 text-center border-t border-border">
+          <Link href="/kitchen" className="comment-link">
+            ← All of the Kitchen
+          </Link>
+        </div>
       </div>
     </>
   );

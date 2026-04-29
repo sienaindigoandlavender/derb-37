@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { canonical, breadcrumbsJsonLd } from '@/lib/seo';
 
 const DESC =
-  'Derb 37 — short notes from a 300-year-old riad in the Marrakech medina, by Jacqueline. A kitchen, mostly. And a life, around the kitchen.';
+  'Derb 37 — the cuisine of Morocco, written from inside a 300-year-old riad in the Marrakech medina, by J. Ng.';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -83,8 +83,8 @@ export default function AboutPage() {
             name.
           </p>
           <p>
-            Not a travel blog. Not a riad blog. A kitchen, mostly. And a
-            life, around the kitchen.
+            Not a travel blog. Not a riad blog. The cuisine of Morocco,
+            written from inside it — and a life around the kitchen.
           </p>
         </div>
 
