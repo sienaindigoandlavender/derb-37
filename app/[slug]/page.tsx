@@ -1,11 +1,16 @@
 import { notFound } from 'next/navigation';
-import { getEntryBySlug } from '@/lib/data';
-import { getPillarConfig, getPillarColorClass } from '@/lib/pillars';
-import Image from 'next/image';
-import Link from 'next/link';
-import Newsletter from '@/components/Newsletter';
 import type { Metadata } from 'next';
-import ReactMarkdown from 'react-markdown';
+import Link from 'next/link';
+import EntryFeatured from '@/components/EntryFeatured';
+import EntryBody from '@/components/EntryBody';
+import RecipeCard from '@/components/RecipeCard';
+import Signature from '@/components/Signature';
+import ArchiveGrid from '@/components/ArchiveGrid';
+import {
+  getEntryBySlug,
+  getRecentEntries,
+  pillarShort,
+} from '@/lib/content';
 
 export const revalidate = 300;
 
@@ -14,144 +19,88 @@ type Props = { params: { slug: string } };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const entry = await getEntryBySlug(params.slug);
   if (!entry) return { title: 'Not Found' };
+  const description = entry.excerpt || entry.subtitle || '';
   return {
     title: entry.title,
-    description: entry.story_body?.replace(/[#*_\[\]]/g, '').slice(0, 160) || entry.recipe_intro || '',
+    description,
     openGraph: {
       title: entry.title,
-      description: entry.story_body?.replace(/[#*_\[\]]/g, '').slice(0, 160) || '',
+      description,
+      type: 'article',
       images: entry.hero_image ? [{ url: entry.hero_image }] : [],
     },
   };
-}
-
-function formatDate(dateStr: string): string {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
 
 export default async function EntryPage({ params }: Props) {
   const entry = await getEntryBySlug(params.slug);
   if (!entry) notFound();
 
-  const pillar = getPillarConfig(entry.pillar);
-  const laneLabel = entry.lane === 'jacquelines_kitchen' ? "Jacqueline's Kitchen" : entry.lane === 'pantry' ? 'Pantry Notes' : null;
+  const more = await getRecentEntries({ limit: 3, excludeId: entry.id, pillar: entry.pillar });
 
   const articleSchema = {
     '@context': 'https://schema.org',
-    '@type': entry.ingredients ? 'Article' : 'BlogPosting',
+    '@type': 'Article',
     headline: entry.title,
-    image: entry.hero_image || '',
-    author: { '@type': 'Person', name: 'Jacqueline Ng', url: 'https://derb37.com/about' },
-    publisher: { '@type': 'Organization', name: 'Derb 37', url: 'https://derb37.com' },
-    datePublished: entry.created_at,
+    datePublished: entry.entry_date,
     dateModified: entry.updated_at,
+    author: { '@type': 'Person', name: 'Jacqueline Ng' },
+    publisher: { '@type': 'Organization', name: 'Derb 37' },
+    image: entry.hero_image || undefined,
+    articleBody: entry.story_body || '',
     mainEntityOfPage: `https://derb37.com/${entry.slug}`,
-    articleBody: entry.story_body?.slice(0, 3000) || '',
-    wordCount: entry.story_body?.split(/\s+/).length || 0,
-    keywords: [entry.pillar, entry.season, ...(entry.cultural_origins || [])].filter(Boolean).join(', '),
-    about: {
-      '@type': 'Place',
-      name: 'Derb 37, Ksour Quarter',
-      address: { '@type': 'PostalAddress', streetAddress: '37 Derb Fhal Zfriti', addressLocality: 'Marrakech', addressCountry: 'MA' },
-    },
-    potentialAction: { '@type': 'ReadAction', target: `https://derb37.com/${entry.slug}` },
   };
 
-  const recipeSchema = entry.ingredients ? {
-    '@context': 'https://schema.org',
-    '@type': 'Recipe',
-    name: entry.recipe_title || entry.title,
-    description: entry.recipe_intro || entry.story_body?.slice(0, 200) || '',
-    author: { '@type': 'Person', name: 'Jacqueline Ng' },
-    recipeIngredient: entry.ingredients.map((i) => `${i.amount || ''} ${i.item}`.trim()),
-    recipeInstructions: entry.method ? entry.method.split('\n\n').filter(Boolean).map((step, i) => ({
-      '@type': 'HowToStep',
-      position: i + 1,
-      text: step.trim(),
-    })) : [],
-    recipeCuisine: (entry.cultural_origins || ['moroccan']).map(c =>
-      c === 'moroccan' ? 'Moroccan' : c === 'chinese' ? 'Chinese' : c === 'mauritian' ? 'Mauritian' : c
-    ),
-    image: entry.hero_image || '',
-    datePublished: entry.created_at,
-    keywords: [entry.season, ...(entry.cultural_origins || []), 'Marrakech'].filter(Boolean).join(', '),
-  } : null;
+  const recipeSchema = entry.has_recipe
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Recipe',
+        name: entry.recipe_title || entry.title,
+        author: { '@type': 'Person', name: 'Jacqueline Ng' },
+        recipeYield: entry.recipe_yield || undefined,
+        recipeIngredient: (entry.recipe_sections || []).flatMap((s) => s.ingredients),
+        recipeInstructions: entry.recipe_method || undefined,
+        image: entry.hero_image || undefined,
+        datePublished: entry.entry_date,
+      }
+    : null;
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      {recipeSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeSchema) }} />}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      {recipeSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeSchema) }}
+        />
+      )}
 
-      <article className="content-column pt-4 pb-12">
-        <p className="post-date mb-2">{formatDate(entry.created_at)}</p>
-        <p className="post-category mb-1">
-          <Link href={pillar?.href || '/'}>{pillar?.label || entry.pillar}</Link>
-          {laneLabel && ` · ${laneLabel}`}
-          {entry.season && ` · ${entry.season}`}
-        </p>
-
-        <h1 className="post-title !text-[28px] !mb-8">{entry.title}</h1>
-
-        {entry.cultural_origins && entry.cultural_origins.length > 0 && (
-          <p className="text-xs text-muted italic mb-6">{entry.cultural_origins.join(' · ')}</p>
-        )}
-
-        {entry.hero_image && (
-          <div className="mb-8">
-            <Image src={entry.hero_image} alt={entry.title} width={710} height={536} className="w-full h-auto" priority sizes="(max-width: 768px) 100vw, 710px" />
-          </div>
-        )}
-
-        {entry.story_body && (
-          <div className="post-body">
-            <ReactMarkdown>{entry.story_body}</ReactMarkdown>
-          </div>
-        )}
-
-        {entry.images && entry.images.length > 0 && (
-          <div className="my-8 space-y-4">
-            {entry.images.map((img, i) => (
-              <figure key={i}>
-                <Image src={img.url} alt={img.alt} width={710} height={536} className="w-full h-auto" sizes="(max-width: 768px) 100vw, 710px" />
-                {img.caption && <figcaption className="text-xs text-muted mt-2 italic">{img.caption}</figcaption>}
-              </figure>
-            ))}
-          </div>
-        )}
-
-        {(entry.recipe_title || entry.ingredients) && (
-          <div className="post-body mt-10 pt-8 border-t border-border">
-            {entry.recipe_title && <p><strong>{entry.recipe_title}</strong></p>}
-            {entry.recipe_intro && <p><em>{entry.recipe_intro}</em></p>}
-
-            {entry.ingredients && (
-              <div className="recipe-ingredients my-4">
-                {entry.ingredients.map((ing, i) => (
-                  <span key={i} className="block">
-                    {ing.amount && <>{ing.amount} </>}{ing.item}{ing.note && <> — <em>{ing.note}</em></>}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {entry.method && (
-              <div className="mt-4"><ReactMarkdown>{entry.method}</ReactMarkdown></div>
-            )}
-          </div>
-        )}
-
-        {/* Back */}
-        <div className="mt-12 pt-8 border-t border-border">
-          <Link href={pillar?.href || '/'} className="comment-link">
-            ← Back to {pillar?.label || 'Home'}
-          </Link>
-        </div>
+      <EntryFeatured entry={entry} headingLevel="h1" />
+      <article>
+        <EntryBody body={entry.story_body} />
+        {entry.has_recipe && <RecipeCard entry={entry} />}
+        <Signature />
       </article>
 
-      <div className="content-column">
-        <Newsletter />
+      <div className="px-6 text-center pb-6">
+        <Link
+          href={`/${entry.pillar}`}
+          className="font-sc text-[11px] tracking-[0.32em] uppercase text-secondary hover:text-rust transition-colors"
+        >
+          ← More from {pillarShort(entry.pillar)}
+        </Link>
       </div>
+
+      {more.length > 0 && (
+        <ArchiveGrid
+          entries={more}
+          eyebrow={`Also from ${pillarShort(entry.pillar)}`}
+          title="Adjacent letters"
+        />
+      )}
     </>
   );
 }

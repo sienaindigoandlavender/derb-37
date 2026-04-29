@@ -1,21 +1,22 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient as createSupabaseClient, SupabaseClient } from '@supabase/supabase-js';
 
-// Site Supabase — entries, settings
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
-export const supabase: SupabaseClient = supabaseUrl && (supabaseServiceKey || supabaseAnonKey)
-  ? createClient(supabaseUrl, supabaseServiceKey || supabaseAnonKey)
-  : null as any;
+export const hasSupabase = !!(url && (anonKey || serviceKey));
 
-// Nexus Supabase — legal pages, content network, newsletter
-const nexusUrl = process.env.NEXUS_SUPABASE_URL || '';
-const nexusKey = process.env.NEXUS_SUPABASE_ANON_KEY || '';
+export function createClient(): SupabaseClient {
+  if (!hasSupabase) {
+    throw new Error('Supabase env vars missing. Set NEXT_PUBLIC_SUPABASE_URL and a key.');
+  }
+  return createSupabaseClient(url, serviceKey || anonKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+}
 
-export const nexus: SupabaseClient = nexusUrl && nexusKey
-  ? createClient(nexusUrl, nexusKey)
-  : null as any;
-
-export const hasSupabase = !!(supabaseUrl && (supabaseServiceKey || supabaseAnonKey));
-export const hasNexus = !!(nexusUrl && nexusKey);
+export const supabase: SupabaseClient = hasSupabase
+  ? createSupabaseClient(url, anonKey || serviceKey, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    })
+  : (null as unknown as SupabaseClient);
