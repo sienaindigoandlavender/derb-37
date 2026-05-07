@@ -90,3 +90,82 @@ export function metaDescriptionFromBody(body: string | null | undefined, max = 1
   const lastSpace = cut.lastIndexOf(' ');
   return (lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).trim() + '…';
 }
+
+import type { Entry } from './content';
+import { cuisineCategoryLabel, pillarLabel } from './content';
+
+function methodToSteps(method: string | null) {
+  if (!method) return undefined;
+  return method
+    .split(/\n\s*\n/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((text, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      text,
+    }));
+}
+
+// Combined Article (+ Recipe) JSON-LD for an entry. Recipes use a single
+// node with @type: ['Article','Recipe'] so Google sees the same canonical
+// page is both an editorial article and a structured recipe — avoids the
+// split-graph problem of emitting two separate top-level objects.
+export function entryJsonLd(entry: Entry) {
+  const url = canonical(`/${entry.slug}`);
+  const description =
+    entry.excerpt ||
+    metaDescriptionFromBody(entry.story_body) ||
+    entry.subtitle ||
+    '';
+
+  const wordCount = entry.story_body
+    ? entry.story_body.split(/\s+/).filter(Boolean).length
+    : undefined;
+
+  const base: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': entry.has_recipe ? ['Article', 'Recipe'] : 'Article',
+    '@id': `${url}#article`,
+    headline: entry.title,
+    name: entry.has_recipe ? (entry.recipe_title || entry.title) : undefined,
+    description,
+    datePublished: entry.entry_date,
+    dateModified: entry.updated_at,
+    author: { '@id': `${SITE_URL}#author` },
+    publisher: { '@id': `${SITE_URL}#org` },
+    image: entry.hero_image ? [entry.hero_image] : undefined,
+    articleSection: pillarLabel(entry.pillar),
+    keywords: [
+      ...(entry.cultural_origins || []),
+      entry.pillar,
+      entry.cuisine_category || '',
+    ]
+      .filter(Boolean)
+      .join(', '),
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    isPartOf: { '@id': `${SITE_URL}#website` },
+    inLanguage: 'en',
+    wordCount,
+    articleBody: entry.story_body || undefined,
+  };
+
+  if (entry.has_recipe) {
+    const recipeCategory = entry.cuisine_category
+      ? cuisineCategoryLabel(entry.cuisine_category)
+      : pillarLabel(entry.pillar);
+    const cuisines =
+      entry.cultural_origins && entry.cultural_origins.length > 0
+        ? entry.cultural_origins.map((c) => c.charAt(0).toUpperCase() + c.slice(1))
+        : ['Moroccan'];
+    Object.assign(base, {
+      recipeYield: entry.recipe_yield || undefined,
+      recipeCategory,
+      recipeCuisine: cuisines,
+      recipeIngredient: (entry.recipe_sections || []).flatMap((s) => s.ingredients),
+      recipeInstructions: methodToSteps(entry.recipe_method),
+    });
+  }
+
+  return base;
+}

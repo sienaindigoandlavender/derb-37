@@ -4,11 +4,13 @@ import { notFound } from 'next/navigation';
 import PostStream from '@/components/PostStream';
 import CategoryIndex from '@/components/CategoryIndex';
 import CategoryFAQ from '@/components/CategoryFAQ';
+import RelatedLinks from '@/components/RelatedLinks';
 import { MedinaDivider } from '@/components/MedinaIllustrations';
 import {
   CUISINE_CATEGORIES,
   CuisineCategory,
   findCuisineCategory,
+  getCrossCategoryEntries,
   getKitchenCategoryEntries,
   getKitchenCategoryCounts,
   pillarLabel,
@@ -66,6 +68,8 @@ export default async function KitchenCategoryPage({ params, searchParams }: Prop
   });
   const counts = await getKitchenCategoryCounts();
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+  const adjacent =
+    page === 1 ? await getCrossCategoryEntries(cat.slug as CuisineCategory, 2) : [];
 
   const breadcrumbs = breadcrumbsJsonLd([
     { name: 'Home', path: '/' },
@@ -147,6 +151,14 @@ export default async function KitchenCategoryPage({ params, searchParams }: Prop
         )}
 
         <CategoryFAQ faqs={cat.faqs} categoryLabel={cat.label} />
+
+        {adjacent.length > 0 && (
+          <RelatedLinks
+            entries={adjacent}
+            eyebrow="From the journal"
+            intro={`Notes that touch ${cat.label.toLowerCase()} from elsewhere in the kitchen.`}
+          />
+        )}
 
         <div className="mt-10 pt-6 text-center border-t border-border">
           <Link href="/kitchen" className="comment-link">

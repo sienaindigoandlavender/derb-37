@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { marked } from 'marked';
 import type { Entry } from '@/lib/content';
 import { pillarShort } from '@/lib/content';
+import { linkGlossaryTerms } from '@/lib/glossary-link';
 import { SmallTagineSVG } from '@/components/MedinaIllustrations';
 import Byline from '@/components/Byline';
 
@@ -25,11 +26,19 @@ export default function PostStream({
   entry: Entry;
   asPermalink?: boolean;
 }) {
+  // First glossary occurrence in body links to /glossary#term; method
+  // gets its own pass so a recipe can link the same term once in each
+  // section if it appears in both. Permalink view only — stream view
+  // is too dense for the highlight to read.
   const bodyHtml = entry.story_body
-    ? (marked.parse(entry.story_body, { async: false }) as string)
+    ? asPermalink
+      ? linkGlossaryTerms(marked.parse(entry.story_body, { async: false }) as string)
+      : (marked.parse(entry.story_body, { async: false }) as string)
     : '';
   const methodHtml = entry.recipe_method
-    ? (marked.parse(entry.recipe_method, { async: false }) as string)
+    ? asPermalink
+      ? linkGlossaryTerms(marked.parse(entry.recipe_method, { async: false }) as string)
+      : (marked.parse(entry.recipe_method, { async: false }) as string)
     : '';
 
   const TitleTag = asPermalink ? 'h1' : 'h2';

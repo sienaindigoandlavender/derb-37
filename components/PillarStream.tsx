@@ -1,8 +1,13 @@
 import Link from 'next/link';
 import PostStream from '@/components/PostStream';
+import RelatedLinks from '@/components/RelatedLinks';
 import { MedinaDivider } from '@/components/MedinaIllustrations';
 import type { Pillar } from '@/lib/content';
-import { getEntriesByPillar, pillarLabel } from '@/lib/content';
+import {
+  getCrossPillarEntries,
+  getEntriesByPillar,
+  pillarLabel,
+} from '@/lib/content';
 import { breadcrumbsJsonLd } from '@/lib/seo';
 
 const PER_PAGE = 6;
@@ -19,6 +24,8 @@ export default async function PillarStream({
   const { entries, total } = await getEntriesByPillar(pillar, { page, perPage: PER_PAGE });
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
   const basePath = `/${pillar}`;
+  const showRelated = page === 1;
+  const related = showRelated ? await getCrossPillarEntries(pillar, 3) : [];
 
   const breadcrumbs = breadcrumbsJsonLd([
     { name: 'Home', path: '/' },
@@ -88,6 +95,14 @@ export default async function PillarStream({
               <span />
             )}
           </nav>
+        )}
+
+        {showRelated && related.length > 0 && (
+          <RelatedLinks
+            entries={related}
+            eyebrow="From the rest of the journal"
+            intro="Adjacent notes from the other pillars."
+          />
         )}
       </div>
     </>

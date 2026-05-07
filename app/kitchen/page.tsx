@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PostStream from '@/components/PostStream';
 import CategoryIndex from '@/components/CategoryIndex';
+import RelatedLinks from '@/components/RelatedLinks';
 import { MedinaDivider } from '@/components/MedinaIllustrations';
 import {
+  getCrossPillarEntries,
   getEntriesByPillar,
   getKitchenCategoryCounts,
   pillarLabel,
@@ -43,6 +45,8 @@ export default async function KitchenPage({
   const { entries, total } = await getEntriesByPillar('kitchen', { page, perPage: PER_PAGE });
   const counts = await getKitchenCategoryCounts();
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+  const showRelated = page === 1;
+  const related = showRelated ? await getCrossPillarEntries('kitchen', 3) : [];
 
   const breadcrumbs = breadcrumbsJsonLd([
     { name: 'Home', path: '/' },
@@ -109,6 +113,14 @@ export default async function KitchenPage({
               <span />
             )}
           </nav>
+        )}
+
+        {showRelated && related.length > 0 && (
+          <RelatedLinks
+            entries={related}
+            eyebrow="From the rest of the journal"
+            intro="When the kitchen is closed."
+          />
         )}
       </div>
     </>
