@@ -321,6 +321,52 @@ export async function getEntryBySlug(slug: string): Promise<Entry | null> {
   return ENTRIES.find((e) => e.slug === slug && e.published) || null;
 }
 
+// Pick a few entries from pillars OTHER than the given one. Used to break
+// the silo between /kitchen, /morocco, /travel — improves internal
+// PageRank flow and tells search engines these aren't isolated thin pages.
+export async function getCrossPillarEntries(
+  excludePillar: Pillar,
+  limit = 3
+): Promise<Entry[]> {
+  const all = publishedSorted().filter((e) => e.pillar !== excludePillar);
+  const others: Pillar[] = (['kitchen', 'morocco', 'travel'] as const).filter(
+    (p) => p !== excludePillar
+  );
+  // Round-robin so each other-pillar gets at least one slot.
+  const buckets: Record<string, Entry[]> = {};
+  for (const p of others) buckets[p] = all.filter((e) => e.pillar === p);
+  const picked: Entry[] = [];
+  for (let round = 0; picked.length < limit; round++) {
+    let progressed = false;
+    for (const p of others) {
+      const e = buckets[p][round];
+      if (e) {
+        picked.push(e);
+        progressed = true;
+        if (picked.length >= limit) break;
+      }
+    }
+    if (!progressed) break;
+  }
+  return picked;
+}
+
+// Pick a few kitchen entries from cuisine categories OTHER than the given
+// one. Used on /kitchen/[category] hubs to surface adjacent categories.
+export async function getCrossCategoryEntries(
+  excludeCategory: CuisineCategory,
+  limit = 2
+): Promise<Entry[]> {
+  return publishedSorted()
+    .filter(
+      (e) =>
+        e.pillar === 'kitchen' &&
+        e.cuisine_category &&
+        e.cuisine_category !== excludeCategory
+    )
+    .slice(0, limit);
+}
+
 export async function getEntryNeighbors(entry: Entry): Promise<{ prev: Entry | null; next: Entry | null }> {
   const list = publishedSorted();
   const idx = list.findIndex((e) => e.id === entry.id);
