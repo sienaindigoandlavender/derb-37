@@ -1,5 +1,4 @@
-// Hardcoded legal pages. Nexus was killed March 10, 2026 — do not import any
-// NEXUS_SUPABASE_* env vars. These markdown blocks are the source of truth for
+// Hardcoded legal pages. These markdown blocks are the source of truth for
 // /privacy and /terms.
 
 export const PRIVACY_POLICY = `# Privacy Policy
@@ -28,7 +27,8 @@ URL) are retained for a short period for security and debugging only.
 
 ## Where data is stored
 
-- Site content is hosted on Vercel and stored in Supabase (EU region).
+- The site is hosted on Vercel. All content is part of the static
+  build — there is no database and no user account system.
 - Analytics is handled by Google.
 
 ## Your rights
